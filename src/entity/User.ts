@@ -1,18 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { compare } from "bcrypt";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
-@Entity()
+@Entity("users")
 export class User {
+  @PrimaryGeneratedColumn("uuid")
+  userId?: string;
 
-    @PrimaryGeneratedColumn()
-    id: number
+  @Column()
+  userName?: string;
 
-    @Column()
-    firstName: string
+  @Column({ unique: true })
+  email: string;
 
-    @Column()
-    lastName: string
+  @Column()
+  password: string;
 
-    @Column()
-    age: number
+  @CreateDateColumn()
+  createdAt?: Date;
 
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
+  comparePwd = async (pwdString: string): Promise<boolean> => {
+    return await compare(pwdString, this.password);
+  };
 }
