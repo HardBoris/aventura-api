@@ -5,21 +5,36 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from "typeorm";
+import { Company } from "./Company";
+
+export enum UserCategory {
+  ADMIN = "admin",
+  OWNER = "owner",
+  BUYER = "buyer",
+  STORE = "store",
+  OVERSEER = "overseer",
+  USER = "user",
+}
 
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn("uuid")
   userId?: string;
 
-  @Column()
-  userName?: string;
-
   @Column({ unique: true })
-  email: string;
+  userName: string;
 
   @Column()
-  password: string;
+  userEmail?: string;
+
+  @Column()
+  userPassword: string;
+
+  @Column({ type: "enum", enum: UserCategory, default: UserCategory.USER })
+  userCategory: UserCategory;
 
   @CreateDateColumn()
   createdAt?: Date;
@@ -27,7 +42,11 @@ export class User {
   @UpdateDateColumn()
   updatedAt?: Date;
 
+  @ManyToOne(() => Company, (company) => company.users)
+  @JoinColumn({ name: "companyId" })
+  company: Company;
+
   comparePwd = async (pwdString: string): Promise<boolean> => {
-    return await compare(pwdString, this.password);
+    return await compare(pwdString, this.userPassword);
   };
 }
