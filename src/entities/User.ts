@@ -8,7 +8,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from "typeorm";
-import { Company } from "./Company";
+import { Company } from "./index";
 
 export enum UserCategory {
   ADMIN = "admin",
@@ -27,7 +27,7 @@ export class User {
   @Column({ unique: true })
   userName: string;
 
-  @Column()
+  @Column({ nullable: true })
   userEmail?: string;
 
   @Column()

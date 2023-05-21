@@ -5,27 +5,27 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Company } from "./Company";
+import { Company } from "./index";
 
 @Entity("suppliers")
 export class Supplier {
   @PrimaryGeneratedColumn("uuid")
   supplierId?: string;
 
-  @Column({ unique: true })
+  @Column()
   supplierName: string;
 
-  @Column()
+  @Column({ unique: true })
   supplierCNPJ: string;
 
-  @Column()
-  supplierCorporateName: string;
+  @Column({ nullable: true })
+  supplierCorporateName?: string;
 
-  @Column()
-  supplierEmail: string;
+  @Column({ nullable: true })
+  supplierEmail?: string;
 
-  @Column()
-  supplierPhone: string;
+  @Column({ nullable: true })
+  supplierPhone?: string;
 
   @ManyToOne(() => Company, (company) => company.suppliers)
   @JoinColumn({ name: "companyId" })

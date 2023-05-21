@@ -7,22 +7,22 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from "typeorm";
-import { User } from "./User";
-import { Supplier } from "./Supplier";
+import { User } from "./index";
+import { Supplier } from "./index";
 
 @Entity("companies")
 export class Company {
   @PrimaryGeneratedColumn("uuid")
   companyId?: string;
 
-  @Column()
+  @Column({ nullable: true })
   companyName?: string;
 
   @Column({ unique: true })
   companyEmail: string;
 
-  @Column()
-  companyPassword: string;
+  @Column({ unique: true })
+  companyCode?: string;
 
   @CreateDateColumn()
   createdAt?: Date;
@@ -35,8 +35,4 @@ export class Company {
 
   @OneToMany(() => Supplier, (supplier) => supplier.company, { eager: true })
   suppliers: Supplier[];
-
-  comparePwd = async (pwdString: string): Promise<boolean> => {
-    return await compare(pwdString, this.companyPassword);
-  };
 }
