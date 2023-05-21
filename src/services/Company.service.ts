@@ -24,6 +24,15 @@ class CompanyService {
       stripUnknown: true,
     });
   };
+
+  companyLoader = async (req: Request) => {
+    const company: Company[] = await companyRepository.all();
+
+    return {
+      status: 200,
+      company: company,
+    };
+  };
 }
 
 export default new CompanyService();
