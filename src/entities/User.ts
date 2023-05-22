@@ -43,7 +43,7 @@ export class User {
   updatedAt?: Date;
 
   @ManyToOne(() => Company, (company) => company.users)
-  @JoinColumn({ name: "companyId" })
+  @JoinColumn({ name: "companyCode" })
   company: Company;
 
   comparePwd = async (pwdString: string): Promise<boolean> => {
