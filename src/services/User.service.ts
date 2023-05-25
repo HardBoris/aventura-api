@@ -1,4 +1,4 @@
-import { Request } from "express";
+/* import { Request } from "express";
 import { Company, User } from "../entities";
 import { companyRepository, userRepository } from "../repositories";
 import CompanyShape from "../shapes/Company.shape";
@@ -80,3 +80,4 @@ class UserService {
 }
 
 export default new UserService();
+ */

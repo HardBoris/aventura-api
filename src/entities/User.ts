@@ -1,4 +1,4 @@
-import { compare } from "bcrypt";
+/* import { compare } from "bcrypt";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -43,10 +43,11 @@ export class User {
   updatedAt?: Date;
 
   @ManyToOne(() => Company, (company) => company.users)
-  @JoinColumn({ name: "companyCode" })
+  @JoinColumn({ referencedColumnName: "companyCode" })
   company: Company;
 
   comparePwd = async (pwdString: string): Promise<boolean> => {
     return await compare(pwdString, this.userPassword);
   };
 }
+ */
