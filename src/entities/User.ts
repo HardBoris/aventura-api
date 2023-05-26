@@ -1,4 +1,4 @@
-/* import { compare } from "bcrypt";
+import { compare } from "bcrypt";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -12,9 +12,8 @@ import { Company } from "./index";
 
 export enum UserCategory {
   ADMIN = "admin",
-  OWNER = "owner",
   BUYER = "buyer",
-  STORE = "store",
+  INVENTORY = "inventory",
   OVERSEER = "overseer",
   USER = "user",
 }
@@ -26,9 +25,6 @@ export class User {
 
   @Column({ unique: true })
   userName: string;
-
-  @Column({ nullable: true })
-  userEmail?: string;
 
   @Column()
   userPassword: string;
@@ -50,4 +46,3 @@ export class User {
     return await compare(pwdString, this.userPassword);
   };
 }
- */

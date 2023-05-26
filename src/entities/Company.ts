@@ -4,8 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
-// import { User } from "./index";
+import { User } from "./index";
 // import { Supplier } from "./index";
 
 @Entity("companies")
@@ -28,8 +29,8 @@ export class Company {
   @UpdateDateColumn()
   updatedAt?: Date;
 
-  /* @OneToMany(() => User, (user) => user.company, { eager: true })
-  users: User[]; */
+  @OneToMany(() => User, (user) => user.company, { eager: true })
+  users: User[];
 
   /* @OneToMany(() => Supplier, (supplier) => supplier.company, { eager: true })
   suppliers: Supplier[]; */

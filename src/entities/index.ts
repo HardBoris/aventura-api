@@ -1,5 +1,5 @@
 // import { Supplier } from "./Supplier";
-// import { User } from "./User";
+import { User } from "./User";
 import { Company } from "./Company";
 
-export { Company };
+export { Company, User };
