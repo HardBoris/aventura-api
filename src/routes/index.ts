@@ -4,7 +4,7 @@ import userRouter from "./User.route";
 
 const registerRouters = (app: Express): void => {
   app.use(companyRouter);
-  // app.use(userRouter);
+  app.use(userRouter);
 };
 
 export default registerRouters;

@@ -2,8 +2,8 @@ import * as yup from "yup";
 
 class CompanyShape {
   companyCreator = yup.object().shape({
-    companyEmail: yup.string().email().lowercase().required(),
-    companyCode: yup.string().required(),
+    companyName: yup.string().lowercase().required(),
+    code: yup.string().required(),
   });
 }
 

@@ -1,9 +1,11 @@
 import { Router } from "express";
-// import { userController } from "../controllers";
+import { userController } from "../controllers";
 
 const userRouter = Router();
 
-userRouter.post("/aventura-api/users", userController.userCreator);
+userRouter.post("/aventura-api/users/register", userController.userCreator);
+
+userRouter.post("/aventura-api/users/login", userController.userLoger);
 
 userRouter.get("/aventura-api/users", userController.usersLoader);
 

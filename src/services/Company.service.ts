@@ -9,16 +9,14 @@ class CompanyService {
   companyCreator = async (req: Request): Promise<any> => {
     const { companyEmail, companyName } = req.body;
 
-    let companyCode = Math.ceil(Math.random() * 999999).toString();
+    let code = Math.ceil(Math.random() * 999999).toString();
 
-    companyCode.length < 6
-      ? (companyCode = "0".repeat(6 - companyCode.length) + companyCode)
-      : companyCode;
+    code.length < 6 ? (code = "0".repeat(6 - code.length) + code) : code;
 
     const company: Company = await companyRepository.save({
       companyEmail: companyEmail,
       companyName: companyName,
-      companyCode: companyCode,
+      code: code,
     });
 
     return await CompanyShape.companyCreator.validate(company, {
@@ -37,7 +35,7 @@ class CompanyService {
 
   companyLoader = async (req: Request) => {
     const company: Company = await companyRepository.findOne({
-      companyCode: req.params.code,
+      code: req.params.code,
     });
     return {
       status: 200,
@@ -47,7 +45,7 @@ class CompanyService {
 
   companyEditor = async (req: Request) => {
     const company: Company = await companyRepository.findOne({
-      companyCode: req.params.code,
+      code: req.params.code,
     });
 
     if (!company) {

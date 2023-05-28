@@ -38,9 +38,13 @@ export class User {
   @UpdateDateColumn()
   updatedAt?: Date;
 
-  @ManyToOne(() => Company, (company) => company.users)
-  @JoinColumn({ referencedColumnName: "companyCode" })
+  @ManyToOne((type) => Company)
+  @JoinColumn({ referencedColumnName: "code" })
   company: Company;
+
+  /* @ManyToOne(() => Company, (company) => company.users)
+  @JoinColumn({ name: "companyId" })
+  company: Company; */
 
   comparePwd = async (pwdString: string): Promise<boolean> => {
     return await compare(pwdString, this.userPassword);

@@ -3,7 +3,10 @@ import { companyController } from "../controllers";
 
 const companyRouter = Router();
 
-companyRouter.post("/aventura-api/companies", companyController.companyCreator);
+companyRouter.post(
+  "/aventura-api/companies/register",
+  companyController.companyCreator
+);
 
 companyRouter.get("/aventura-api/companies", companyController.companiesLoader);
 

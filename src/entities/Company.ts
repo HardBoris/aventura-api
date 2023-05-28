@@ -21,7 +21,7 @@ export class Company {
   companyEmail: string;
 
   @Column({ unique: true })
-  companyCode?: string;
+  code?: string;
 
   @CreateDateColumn()
   createdAt?: Date;
