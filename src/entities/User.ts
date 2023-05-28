@@ -11,6 +11,7 @@ import {
 import { Company } from "./index";
 
 export enum UserCategory {
+  OWNER = "owner",
   ADMIN = "admin",
   BUYER = "buyer",
   INVENTORY = "inventory",
@@ -41,10 +42,6 @@ export class User {
   @ManyToOne((type) => Company)
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
-
-  /* @ManyToOne(() => Company, (company) => company.users)
-  @JoinColumn({ name: "companyId" })
-  company: Company; */
 
   comparePwd = async (pwdString: string): Promise<boolean> => {
     return await compare(pwdString, this.userPassword);

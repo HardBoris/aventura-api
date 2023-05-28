@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from "typeorm";
 import { User } from "./index";
-// import { Supplier } from "./index";
+import { Supplier } from "./index";
 
 @Entity("companies")
 export class Company {
@@ -32,6 +32,6 @@ export class Company {
   @OneToMany(() => User, (user) => user.company, { eager: true })
   users: User[];
 
-  /* @OneToMany(() => Supplier, (supplier) => supplier.company, { eager: true })
-  suppliers: Supplier[]; */
+  @OneToMany(() => Supplier, (supplier) => supplier.company, { eager: true })
+  suppliers: Supplier[];
 }

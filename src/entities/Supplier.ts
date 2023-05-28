@@ -1,4 +1,4 @@
-/* import {
+import {
   Column,
   Entity,
   JoinColumn,
@@ -27,8 +27,7 @@ export class Supplier {
   @Column({ nullable: true })
   supplierPhone?: string;
 
-  @ManyToOne(() => Company, (company) => company.suppliers)
-  @JoinColumn({ referencedColumnName: "companyCode" })
+  @ManyToOne((type) => Company)
+  @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 }
- */
