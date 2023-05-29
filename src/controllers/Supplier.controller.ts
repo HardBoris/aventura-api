@@ -21,6 +21,11 @@ class SupplierController {
     const supplier = await supplierService.supplierEditor(req);
     return res.status(200).json(supplier);
   };
+
+  supplierDeletor = async (req: Request, res: Response) => {
+    const { status, message } = await supplierService.supplierDeletor(req);
+    return res.status(status).json(message);
+  };
 }
 
 export default new SupplierController();

@@ -1,17 +1,26 @@
 import { Request } from "express";
 import { Supplier } from "../entities";
-import { supplierRepository } from "../repositories";
+import { companyRepository, supplierRepository } from "../repositories";
 import { ErrorHandler } from "../errors";
 import { supplierShape } from "../shapes";
 
 class SupplierService {
+  Company = async ({ params }: Request) => {
+    const result = await companyRepository.findOne({
+      companyId: params.companyId,
+    });
+    return result;
+  };
+
   supplierCreator = async (req: Request): Promise<any> => {
-    const { companyCode, supplierName, supplierCNPJ } = req.body;
+    const company = await this.Company(req);
+
+    const { supplierName, supplierCNPJ } = req.body;
 
     const supplier: Supplier = await supplierRepository.save({
       supplierName: supplierName,
       supplierCNPJ: supplierCNPJ,
-      company: companyCode,
+      company: company,
     });
 
     return await supplierShape.supplierCreator.validate(supplier, {
@@ -20,7 +29,13 @@ class SupplierService {
   };
 
   suppliersLoader = async (req: Request) => {
-    const suppliers: Supplier[] = await supplierRepository.all();
+    const company = await this.Company(req);
+
+    const suppliers: Supplier[] = await supplierRepository.all({
+      company: {
+        code: company.code,
+      },
+    });
 
     return {
       status: 200,
@@ -29,7 +44,12 @@ class SupplierService {
   };
 
   supplierLoader = async (req: Request) => {
+    const company = await this.Company(req);
+
     const supplier: Supplier = await supplierRepository.findOne({
+      company: {
+        code: company.code,
+      },
       supplierId: req.params.id,
     });
     return {
@@ -39,7 +59,12 @@ class SupplierService {
   };
 
   supplierEditor = async (req: Request) => {
+    const company = await this.Company(req);
+
     const supplier: Supplier = await supplierRepository.findOne({
+      company: {
+        code: company.code,
+      },
       supplierId: req.params.id,
     });
 
@@ -64,7 +89,7 @@ class SupplierService {
     return updatedSupplier;
   };
 
-  userDeletor = async (req: Request) => {
+  supplierDeletor = async (req: Request) => {
     await supplierRepository.delete(req.params.id);
     return {
       status: 200,

@@ -4,7 +4,7 @@ import { Supplier } from "../entities";
 
 interface ISupplierRepo {
   save: (supplier: Partial<Supplier>) => Promise<Supplier>;
-  all: () => Promise<Supplier[]>;
+  all: (payload: object) => Promise<Supplier[]>;
   findOne: (payload: object) => Promise<Supplier>;
   delete: (id: string) => Promise<DeleteResult>;
 }
@@ -18,7 +18,8 @@ class SupplierRepo implements ISupplierRepo {
 
   save = async (supplier: Partial<Supplier>) =>
     await this.ormRepo.save(supplier);
-  all = async () => await this.ormRepo.find();
+  all = async (payload: object) =>
+    await this.ormRepo.find({ where: { ...payload } });
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });
   };
