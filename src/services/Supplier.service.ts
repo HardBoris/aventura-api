@@ -54,7 +54,7 @@ class SupplierService {
     }
 
     Object.keys(body).forEach((key) => {
-      if ((body[key] && key !== "supplierId") || key !== "supplierCNPJ") {
+      if (body[key] && key !== "supplierCNPJ") {
         supplier[key] = body[key];
       }
     });

@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Request, Response } from "express";
 import { Company, User } from "../entities";
 import { companyRepository, userRepository } from "../repositories";
 import CompanyShape from "../shapes/Company.shape";
@@ -7,6 +7,8 @@ import { userShape } from "../shapes";
 // import { AssertsShape } from "yup/lib/object";
 import { hash } from "bcrypt";
 import { sign } from "jsonwebtoken";
+import { companyService } from ".";
+import { companyController } from "../controllers";
 // import {AssertsShape}
 
 interface ILogin {
@@ -15,15 +17,25 @@ interface ILogin {
 }
 
 class UserService {
-  userCreator = async (req: Request): Promise<any> => {
-    const { companyCode, userName, userPassword } = req.body;
+  Company = async ({ params }: Request) => {
+    const result = await companyRepository.findOne({
+      companyId: params.companyId,
+    });
 
-    let hashPassword = await hash(userPassword, 10);
+    return result;
+  };
+
+  userCreator = async (req: Request): Promise<any> => {
+    const company = await this.Company(req);
+
+    const { userName, userPassword } = req.body;
+
+    const hashPassword = await hash(userPassword, 10);
 
     const user: User = await userRepository.save({
       userName: userName,
       userPassword: hashPassword,
-      company: companyCode,
+      company: company,
     });
 
     return await userShape.userCreator.validate(user, {
@@ -34,7 +46,9 @@ class UserService {
   userLoger = async (req: Request): Promise<ILogin> => {
     const { companyCode, userName, userPassword } = req.body;
     const user: User = await userRepository.findOne({
-      companyCode: companyCode,
+      company: {
+        code: companyCode,
+      },
       userName: userName,
     });
 
@@ -58,12 +72,18 @@ class UserService {
 
     return {
       status: 200,
-      message: { user: user.userName, token },
+      message: { user: user.userName, token, company: companyCode },
     };
   };
 
   usersLoader = async (req: Request) => {
-    const users: User[] = await userRepository.all();
+    const company = await this.Company(req);
+
+    const users: User[] = await userRepository.all({
+      company: {
+        code: company.code,
+      },
+    });
 
     return {
       status: 200,
@@ -72,17 +92,32 @@ class UserService {
   };
 
   userLoader = async (req: Request) => {
+    const company = await this.Company(req);
+
     const user: User = await userRepository.findOne({
+      company: {
+        code: company.code,
+      },
       userId: req.params.id,
     });
-    return {
-      status: 200,
-      user: user,
-    };
+
+    if (!user) {
+      throw new ErrorHandler(404, "User not found!");
+    } else {
+      return {
+        status: 200,
+        user: user,
+      };
+    }
   };
 
   userEditor = async (req: Request) => {
+    const company = await this.Company(req);
+
     const user: User = await userRepository.findOne({
+      company: {
+        code: company.code,
+      },
       userId: req.params.id,
     });
 
