@@ -3,9 +3,10 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Company } from "./index";
+import { Company, Purchase } from "./index";
 
 @Entity("suppliers")
 export class Supplier {
@@ -30,4 +31,7 @@ export class Supplier {
   @ManyToOne((type) => Company)
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
+
+  @OneToMany(() => Purchase, (purchase) => purchase.supplier, { eager: true })
+  purchases: Purchase[];
 }
