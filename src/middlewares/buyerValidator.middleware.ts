@@ -11,7 +11,11 @@ const buyerValidator = async (
     userId: req.decoded.userId,
   });
 
-  if (decodedUser.userCategory === "buyer") {
+  if (
+    decodedUser.userCategory === "buyer" ||
+    decodedUser.userCategory === "admin" ||
+    decodedUser.userCategory === "owner"
+  ) {
     return next();
   } else {
     return res.status(401).json({
