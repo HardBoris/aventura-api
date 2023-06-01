@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Supplier } from "./Supplier";
+import { Company } from "./Company";
 
 export enum PaymentForm {
   BILLED = "Faturado",
@@ -64,7 +65,11 @@ export class Purchase {
   })
   purchaseStatus: PurchaseStatus;
 
-  @ManyToOne(() => Supplier, (supplier) => supplier.purchases)
+  @ManyToOne((type) => Supplier)
   @JoinColumn({ name: "supplierId" })
   supplier: Supplier;
+
+  @ManyToOne((type) => Company)
+  @JoinColumn({ referencedColumnName: "code" })
+  company: Company;
 }
