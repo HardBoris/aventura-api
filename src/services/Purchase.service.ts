@@ -17,10 +17,13 @@ class PurchaseService {
 
     const { purchaseReference, deliveryDate, supplierId } = req.body;
 
+    const fecha = new Date(deliveryDate);
+
     const purchase: Purchase = await purchaseRepository.save({
       purchaseReference: purchaseReference,
-      deliveryDate: deliveryDate,
+      deliveryDate: fecha,
       supplier: supplierId,
+      company: company,
     });
 
     return await purchaseShape.purchaseCreator.validate(purchase, {
@@ -31,7 +34,11 @@ class PurchaseService {
   purchasesLoader = async (req: Request) => {
     const company = await this.Company(req);
 
-    const purchases: Purchase[] = await purchaseRepository.all();
+    const purchases: Purchase[] = await purchaseRepository.all({
+      company: {
+        code: company.code,
+      },
+    });
 
     return {
       status: 200,
@@ -43,6 +50,9 @@ class PurchaseService {
     const company = await this.Company(req);
 
     const purchase: Purchase = await purchaseRepository.findOne({
+      company: {
+        code: company.code,
+      },
       purchaseId: req.params.id,
     });
     return {
@@ -55,6 +65,9 @@ class PurchaseService {
     const company = await this.Company(req);
 
     const purchase: Purchase = await purchaseRepository.findOne({
+      company: {
+        code: company.code,
+      },
       purchaseId: req.params.id,
     });
 

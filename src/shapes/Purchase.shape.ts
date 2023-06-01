@@ -6,7 +6,7 @@ class PurchaseShape {
     purchaseDate: yup.string().required(),
     purchaseReference: yup.string().required(),
     deliveryDate: yup.string().required(),
-    logistigMode: yup.string().required(),
+    logisticMode: yup.string().required(),
     paymentForm: yup.string().required(),
     paymentInstallments: yup.string().required(),
     purchaseStatus: yup.string().required(),

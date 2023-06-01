@@ -4,7 +4,7 @@ import { Purchase } from "../entities";
 
 interface IPurchaseRepo {
   save: (purchase: Partial<Purchase>) => Promise<Purchase>;
-  all: () => Promise<Purchase[]>;
+  all: (payload: object) => Promise<Purchase[]>;
   findOne: (payload: object) => Promise<Purchase>;
   delete: (id: string) => Promise<DeleteResult>;
 }
@@ -18,7 +18,8 @@ class PurchaseRepo implements IPurchaseRepo {
 
   save = async (purchase: Partial<Purchase>) =>
     await this.ormRepo.save(purchase);
-  all = async () => await this.ormRepo.find();
+  all = async (payload: object) =>
+    await this.ormRepo.find({ where: { ...payload } });
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });
   };
