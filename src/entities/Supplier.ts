@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Company, Purchase } from "./index";
+import { Company, Purchase, Stuff } from "./index";
 
 @Entity("suppliers")
 export class Supplier {
@@ -32,6 +32,9 @@ export class Supplier {
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 
-  @OneToMany(() => Purchase, (purchase) => purchase.supplier, { eager: true })
+  @OneToMany(() => Purchase, (purchase) => purchase.supplier)
   purchases: Purchase[];
+
+  @OneToMany(() => Stuff, (stuff) => stuff.supplier)
+  stuffs: Stuff[];
 }

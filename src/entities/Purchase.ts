@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { Supplier } from "./Supplier";
 import { Company } from "./Company";
+import { Stuff } from "./Stuff";
 
 export enum PaymentForm {
   BILLED = "Faturado",
@@ -72,4 +73,7 @@ export class Purchase {
   @ManyToOne((type) => Company)
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
+
+  @OneToMany(() => Stuff, (stuff) => stuff.purchase)
+  stuffs: Stuff[];
 }

@@ -32,6 +32,7 @@ class PurchaseService {
   };
 
   purchasesLoader = async (req: Request) => {
+    console.log(req);
     const company = await this.Company(req);
 
     const purchases: Purchase[] = await purchaseRepository.all({
