@@ -1,9 +1,8 @@
-/* import {
+import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Purchase } from "./Purchase";
@@ -51,4 +50,3 @@ export class Midia {
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 }
- */
