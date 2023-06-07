@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from "typeorm";
-import { Purchase, Stuff, User } from "./index";
+import { Midia, Purchase, Stuff, User } from "./index";
 import { Supplier } from "./index";
 
 @Entity("companies")
@@ -40,4 +40,7 @@ export class Company {
 
   @OneToMany(() => Stuff, (stuff) => stuff.company, { eager: true })
   stuffs: Stuff[];
+
+  @OneToMany(() => Midia, (midia) => midia.company, { eager: true })
+  midias: Midia[];
 }

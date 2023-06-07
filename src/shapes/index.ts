@@ -3,5 +3,13 @@ import userShape from "./User.shape";
 import supplierShape from "./Supplier.shape";
 import purchaseShape from "./Purchase.shape";
 import stuffShape from "./Stuff.shape";
+import midiaShape from "./Midia.shape";
 
-export { companyShape, userShape, supplierShape, purchaseShape, stuffShape };
+export {
+  companyShape,
+  userShape,
+  supplierShape,
+  purchaseShape,
+  stuffShape,
+  midiaShape,
+};

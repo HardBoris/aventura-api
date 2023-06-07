@@ -4,6 +4,7 @@ import userRouter from "./User.route";
 import supplierRouter from "./Supplier.route";
 import purchaseRouter from "./Purchase.route";
 import stuffRouter from "./Stuff.route";
+import midiaRouter from "./Midia.route";
 
 const registerRouters = (app: Express): void => {
   app.use(companyRouter);
@@ -11,6 +12,7 @@ const registerRouters = (app: Express): void => {
   app.use(supplierRouter);
   app.use(purchaseRouter);
   app.use(stuffRouter);
+  app.use(midiaRouter);
 };
 
 export default registerRouters;

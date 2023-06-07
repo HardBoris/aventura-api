@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Company, Purchase, Stuff } from "./index";
+import { Company, Midia, Purchase, Stuff } from "./index";
 
 @Entity("suppliers")
 export class Supplier {
@@ -37,4 +37,7 @@ export class Supplier {
 
   @OneToMany(() => Stuff, (stuff) => stuff.supplier)
   stuffs: Stuff[];
+
+  @OneToMany(() => Midia, (midia) => midia.supplier)
+  midias: Midia[];
 }

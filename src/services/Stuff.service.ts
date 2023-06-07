@@ -1,12 +1,8 @@
 import { Request } from "express";
-import { Purchase, Stuff } from "../entities";
-import {
-  companyRepository,
-  purchaseRepository,
-  stuffRepository,
-} from "../repositories";
+import { Stuff } from "../entities";
+import { companyRepository, stuffRepository } from "../repositories";
 import { ErrorHandler } from "../errors";
-import { purchaseShape, stuffShape } from "../shapes";
+import { stuffShape } from "../shapes";
 
 class StuffService {
   Company = async ({ params }: Request) => {
@@ -75,7 +71,7 @@ class StuffService {
     });
 
     if (!stuff) {
-      throw new ErrorHandler(404, "Purchase not found!");
+      throw new ErrorHandler(404, "Stuff not found!");
     }
 
     const body = req.body;
