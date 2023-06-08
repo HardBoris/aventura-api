@@ -11,6 +11,7 @@ import { Supplier } from "./Supplier";
 import { Company } from "./Company";
 import { Stuff } from "./Stuff";
 import { Midia } from "./Midia";
+import { Tool } from "./Tool";
 
 export enum PaymentForm {
   BILLED = "Faturado",
@@ -80,4 +81,7 @@ export class Purchase {
 
   @OneToMany(() => Midia, (midia) => midia.purchase)
   midias: Midia[];
+
+  @OneToMany(() => Tool, (tool) => tool.purchase)
+  tools: Tool[];
 }
