@@ -4,6 +4,7 @@ import supplierController from "./Supplier.controller";
 import purchaseController from "./Purchase.controller";
 import stuffController from "./Stuff.controller";
 import midiaController from "./Midia.controller";
+import categoryController from "./Category.controller";
 
 export {
   companyController,
@@ -12,4 +13,5 @@ export {
   purchaseController,
   stuffController,
   midiaController,
+  categoryController,
 };

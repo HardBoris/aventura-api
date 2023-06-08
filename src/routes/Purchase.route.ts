@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { purchaseController, supplierController } from "../controllers";
+import { purchaseController } from "../controllers";
 import { buyerValidator, tokenValidator } from "../middlewares";
 
 const purchaseRouter = Router();

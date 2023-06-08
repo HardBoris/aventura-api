@@ -4,6 +4,7 @@ import supplierRepository from "./Supplier.repository";
 import purchaseRepository from "./Purchase.repository";
 import stuffRepository from "./Stuff.repository";
 import midiaRepository from "./Midia.repository";
+import categoryRepository from "./Category.repository";
 
 export {
   companyRepository,
@@ -12,4 +13,5 @@ export {
   purchaseRepository,
   stuffRepository,
   midiaRepository,
+  categoryRepository,
 };
