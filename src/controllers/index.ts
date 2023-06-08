@@ -6,6 +6,7 @@ import stuffController from "./Stuff.controller";
 import midiaController from "./Midia.controller";
 import categoryController from "./Category.controller";
 import toolController from "./Tool.controller";
+import purchaseElementController from "./PurchaseElement.controller";
 
 export {
   companyController,
@@ -16,4 +17,5 @@ export {
   midiaController,
   categoryController,
   toolController,
+  purchaseElementController,
 };
