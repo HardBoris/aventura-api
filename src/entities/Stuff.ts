@@ -8,6 +8,7 @@ import {
 import { Purchase } from "./Purchase";
 import { Supplier } from "./Supplier";
 import { Company } from "./Company";
+import { Category } from "./Category";
 
 @Entity("stuffs")
 export class Stuff {
@@ -42,6 +43,10 @@ export class Stuff {
   @ManyToOne((type) => Purchase)
   @JoinColumn({ name: "purchaseId" })
   purchase: Purchase;
+
+  @ManyToOne((type) => Category)
+  @JoinColumn({ name: "categoryId" })
+  category: Category;
 
   @ManyToOne((type) => Company)
   @JoinColumn({ referencedColumnName: "code" })
