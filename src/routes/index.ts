@@ -6,6 +6,7 @@ import purchaseRouter from "./Purchase.route";
 import stuffRouter from "./Stuff.route";
 import midiaRouter from "./Midia.route";
 import categoryRouter from "./Category.route";
+import toolRouter from "./Tool.route";
 
 const registerRouters = (app: Express): void => {
   app.use(companyRouter);
@@ -15,6 +16,7 @@ const registerRouters = (app: Express): void => {
   app.use(stuffRouter);
   app.use(midiaRouter);
   app.use(categoryRouter);
+  app.use(toolRouter);
 };
 
 export default registerRouters;
