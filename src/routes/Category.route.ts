@@ -19,21 +19,21 @@ categoryRouter.get(
 );
 
 categoryRouter.get(
-  "/aventura-api/:companyId/categories/:id",
+  "/aventura-api/:companyId/categories/:categoryId",
   tokenValidator,
   buyerValidator,
   categoryController.categoryLoader
 );
 
 categoryRouter.patch(
-  "/aventura-api/:companyId/categories/:id",
+  "/aventura-api/:companyId/categories/:categoryId",
   tokenValidator,
   buyerValidator,
   categoryController.categoryEditor
 );
 
 categoryRouter.delete(
-  "/aventura-api/:companyId/categories/:id",
+  "/aventura-api/:companyId/categories/:categoryId",
   tokenValidator,
   buyerValidator,
   categoryController.categoryDeletor

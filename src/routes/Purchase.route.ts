@@ -19,21 +19,21 @@ purchaseRouter.get(
 );
 
 purchaseRouter.get(
-  "/aventura-api/:companyId/purchases/:id",
+  "/aventura-api/:companyId/purchases/:purchaseId",
   tokenValidator,
   buyerValidator,
   purchaseController.purchaseLoader
 );
 
 purchaseRouter.patch(
-  "/aventura-api/:companyId/purchases/:id",
+  "/aventura-api/:companyId/purchases/:purchaseId",
   tokenValidator,
   buyerValidator,
   purchaseController.purchaseEditor
 );
 
 purchaseRouter.delete(
-  "/aventura-api/:companyId/purchases/:id",
+  "/aventura-api/:companyId/purchases/:purchaseId",
   tokenValidator,
   buyerValidator,
   purchaseController.purchaseDeletor

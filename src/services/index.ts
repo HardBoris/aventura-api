@@ -6,6 +6,7 @@ import stuffService from "./Stuff.service";
 import midiaService from "./Midia.service";
 import categoryService from "./Category.service";
 import toolService from "./Tool.service";
+import purchaseElementService from "./PurchaseElement.service";
 
 export {
   companyService,
@@ -16,4 +17,5 @@ export {
   midiaService,
   categoryService,
   toolService,
+  purchaseElementService,
 };

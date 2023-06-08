@@ -19,21 +19,21 @@ supplierRouter.get(
 );
 
 supplierRouter.get(
-  "/aventura-api/:companyId/suppliers/:id",
+  "/aventura-api/:companyId/suppliers/:supplierId",
   tokenValidator,
   buyerValidator,
   supplierController.supplierLoader
 );
 
 supplierRouter.patch(
-  "/aventura-api/:companyId/suppliers/:id",
+  "/aventura-api/:companyId/suppliers/:supplierId",
   tokenValidator,
   buyerValidator,
   supplierController.supplierEditor
 );
 
 supplierRouter.delete(
-  "/aventura-api/:companyId/suppliers/:id",
+  "/aventura-api/:companyId/suppliers/:supplierId",
   tokenValidator,
   buyerValidator,
   supplierController.supplierDeletor
