@@ -6,6 +6,7 @@ import stuffShape from "./Stuff.shape";
 import midiaShape from "./Midia.shape";
 import categoryShape from "./Category.shape";
 import toolShape from "./Tool.shape";
+import purchaseElementShape from "./PurchaseElement.shape";
 
 export {
   companyShape,
@@ -16,4 +17,5 @@ export {
   midiaShape,
   categoryShape,
   toolShape,
+  purchaseElementShape,
 };
