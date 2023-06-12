@@ -1,15 +1,10 @@
 import { Request, Response } from "express";
-import { Company, User } from "../entities";
+import { User } from "../entities";
 import { companyRepository, userRepository } from "../repositories";
-import CompanyShape from "../shapes/Company.shape";
-import { ErrorHandler, errorHandler } from "../errors";
+import { ErrorHandler } from "../errors";
 import { userShape } from "../shapes";
-// import { AssertsShape } from "yup/lib/object";
 import { hash } from "bcrypt";
 import { sign } from "jsonwebtoken";
-import { companyService } from ".";
-import { companyController } from "../controllers";
-// import {AssertsShape}
 
 interface ILogin {
   status: number;
@@ -70,9 +65,11 @@ class UserService {
       expiresIn: process.env.EXPIRES_IN,
     });
 
+    const company = await companyRepository.findOne({ code: companyCode });
+
     return {
       status: 200,
-      message: { user: user.userName, token, company: companyCode },
+      message: { user: user.userName, token, company: company.companyId },
     };
   };
 
