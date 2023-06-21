@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../entities";
 import { userRepository } from "../repositories";
 
-const adminValidator = async (
+const himselfValidator = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -11,10 +11,7 @@ const adminValidator = async (
     userId: req.decoded.userId,
   });
 
-  if (
-    decodedUser.userCategory === "owner" ||
-    decodedUser.userCategory === "admin"
-  ) {
+  if (decodedUser.userId === req.params.id) {
     return next();
   } else {
     return res.status(401).json({
@@ -26,4 +23,4 @@ const adminValidator = async (
   }
 };
 
-export default adminValidator;
+export default himselfValidator;

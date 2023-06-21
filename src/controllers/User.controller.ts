@@ -26,6 +26,16 @@ class UserController {
     const user = await userService.userEditor(req);
     return res.status(200).json(user);
   };
+
+  categoryChanger = async (req: Request, res: Response) => {
+    const user = await userService.categoryChanger(req);
+    return res.status(200).json(user);
+  };
+
+  userDeletor = async (req: Request, res: Response) => {
+    const { status, message } = await userService.userDeletor(req);
+    return res.status(status).json(message);
+  };
 }
 
 export default new UserController();

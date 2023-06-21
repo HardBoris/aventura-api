@@ -7,6 +7,11 @@ class UserShape {
       code: yup.string().required(),
     }),
   });
+
+  userUpdated = yup.object().shape({
+    userName: yup.string().required(),
+    userCategory: yup.string().required(),
+  });
 }
 
 export default new UserShape();

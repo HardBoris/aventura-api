@@ -5,6 +5,7 @@ import inventoryValidator from "./inventoryValidator.middleware";
 import overseerValidator from "./overseerValidator.middleware";
 import ownerValidator from "./ownerValidator.middleware";
 import verifyUserExists from "./verifyUserExists.middleware";
+import himselfValidator from "./himselfValidator.middleware";
 
 export {
   tokenValidator,
@@ -14,4 +15,5 @@ export {
   overseerValidator,
   ownerValidator,
   verifyUserExists,
+  himselfValidator,
 };

@@ -93,7 +93,7 @@ class PurchaseService {
   };
 
   purchaseDeletor = async (req: Request) => {
-    await purchaseRepository.delete(req.params.id);
+    await purchaseRepository.delete(req.params.purchaseId);
     return {
       status: 200,
       message: "Purchase deleted",

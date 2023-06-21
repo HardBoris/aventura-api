@@ -122,29 +122,52 @@ class UserService {
       throw new ErrorHandler(404, "User not found!");
     }
 
-    const body = req.body;
+    const { userName, userPassword } = req.body;
 
-    if (body.userId) {
-      throw new ErrorHandler(400, "Field userId cannot be modified!");
-    }
-
-    Object.keys(body).forEach((key) => {
-      if (
-        (body[key] && key === "userName") ||
-        key === "userPassword" ||
-        key === "userCategory"
-      ) {
-        user[key] = body[key];
-      }
+    const updatedUser = await userRepository.save({
+      ...user,
+      userName: userName,
+      userPassword: userPassword,
     });
 
-    const updatedUser = await userRepository.save(user);
+    return userShape.userUpdated.validate(updatedUser, { stripUnknown: true });
+  };
 
-    return updatedUser;
+  categoryChanger = async (req: Request) => {
+    const company = await this.Company(req);
+
+    const user: User = await userRepository.findOne({
+      company: {
+        code: company.code,
+      },
+      userId: req.params.id,
+    });
+
+    if (!user) {
+      throw new ErrorHandler(404, "User not found!");
+    }
+
+    const { userCategory } = req.body;
+
+    const updatedUser = await userRepository.save({
+      ...user,
+      userCategory: userCategory,
+    });
+
+    return userShape.userUpdated.validate(updatedUser, { stripUnknown: true });
   };
 
   userDeletor = async (req: Request) => {
+    const user: User = await userRepository.findOne({
+      userId: req.params.id,
+    });
+
+    if (!user) {
+      throw new ErrorHandler(404, "User not found!");
+    }
+
     await userRepository.delete(req.params.id);
+
     return {
       status: 200,
       message: "User deleted",
