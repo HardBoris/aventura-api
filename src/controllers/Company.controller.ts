@@ -21,6 +21,11 @@ class CompanyController {
     const company = await companyService.companyEditor(req);
     return res.status(200).json(company);
   };
+
+  companyDeletor = async (req: Request, res: Response) => {
+    const { status, message } = await companyService.companyDeletor(req);
+    return res.status(status).json(message);
+  };
 }
 
 export default new CompanyController();

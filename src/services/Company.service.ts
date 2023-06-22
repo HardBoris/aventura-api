@@ -8,15 +8,24 @@ import { ErrorHandler, errorHandler } from "../errors";
 class CompanyService {
   companyCreator = async (req: Request): Promise<any> => {
     const { companyEmail, companyName } = req.body;
+    let codigo = "";
 
-    let code = Math.ceil(Math.random() * 999999).toString();
+    const ram = () => Math.ceil(Math.random() * 999999).toString();
 
-    code.length < 6 ? (code = "0".repeat(6 - code.length) + code) : code;
+    const verified = await companyRepository.findOne({ code: codigo });
+
+    do {
+      codigo = ram();
+    } while (verified);
+
+    codigo.length < 6
+      ? (codigo = "0".repeat(6 - codigo.length) + codigo)
+      : codigo;
 
     const company: Company = await companyRepository.save({
       companyEmail: companyEmail,
       companyName: companyName,
-      code: code,
+      code: codigo,
     });
 
     return await CompanyShape.companyCreator.validate(company, {
@@ -67,6 +76,23 @@ class CompanyService {
     const updatedCompany = await companyRepository.save(company);
 
     return updatedCompany;
+  };
+
+  companyDeletor = async (req: Request) => {
+    const company: Company = await companyRepository.findOne({
+      code: req.params.code,
+    });
+
+    if (!company) {
+      throw new ErrorHandler(404, "Company not found!");
+    }
+
+    await companyRepository.delete(company.companyId);
+
+    return {
+      status: 200,
+      message: "Company deleted",
+    };
   };
 }
 

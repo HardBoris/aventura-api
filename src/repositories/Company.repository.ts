@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { Company } from "../entities";
 import { AppDataSource } from "../data-source";
 
@@ -6,12 +6,10 @@ interface ICompanyRepo {
   save: (company: Partial<Company>) => Promise<Company>;
   all: () => Promise<Company[]>;
   findOne: (payload: object) => Promise<Company>;
+  delete: (code: string) => Promise<DeleteResult>;
 }
 
 class CompanyRepo implements ICompanyRepo {
-  delete(company: Company) {
-    throw new Error("Method not allowed!");
-  }
   private ormRepo: Repository<Company>;
 
   constructor() {
@@ -22,6 +20,9 @@ class CompanyRepo implements ICompanyRepo {
   all = async () => await this.ormRepo.find();
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });
+  };
+  delete = async (code: string) => {
+    return await this.ormRepo.delete(code);
   };
 }
 

@@ -32,4 +32,11 @@ companyRouter.patch(
   companyController.companyEditor
 );
 
+companyRouter.delete(
+  "/aventura-api/companies/:code",
+  tokenValidator,
+  ownerValidator,
+  companyController.companyDeletor
+);
+
 export default companyRouter;
