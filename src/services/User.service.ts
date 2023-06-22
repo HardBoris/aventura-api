@@ -149,6 +149,10 @@ class UserService {
 
     const { userCategory } = req.body;
 
+    if (userCategory === "owner") {
+      throw new ErrorHandler(401, "Not allowed!");
+    }
+
     const updatedUser = await userRepository.save({
       ...user,
       userCategory: userCategory,

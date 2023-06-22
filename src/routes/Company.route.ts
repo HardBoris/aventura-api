@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { companyController } from "../controllers";
-import { ownerValidator, tokenValidator } from "../middlewares";
+import { adminValidator, ownerValidator, tokenValidator } from "../middlewares";
 
 const companyRouter = Router();
 
@@ -21,7 +21,7 @@ companyRouter.get(
 companyRouter.get(
   "/aventura-api/companies/:code",
   tokenValidator,
-  ownerValidator,
+  adminValidator,
   companyController.companyLoader
 );
 
