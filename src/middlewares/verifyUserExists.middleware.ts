@@ -1,17 +1,20 @@
 import { NextFunction, Request, Response } from "express";
-import { User } from "../entities";
+import { Company } from "../entities";
 import { ErrorHandler } from "../errors";
-import { userRepository } from "../repositories";
+import { companyRepository } from "../repositories";
 
 const verifyUserExists = async (
   req: Request,
-  res: Response,
+  _: Response,
   next: NextFunction
 ) => {
-  const foundUser: User = await userRepository.findOne({
-    companyCode: req.body.company,
-    userName: req.body.userName,
+  const company: Company = await companyRepository.findOne({
+    companyId: req.params.companyId,
   });
+
+  const users = company.users;
+
+  const foundUser = users?.find((item) => item.userName === req.body.userName);
 
   if (foundUser) {
     throw new ErrorHandler(409, "User already exists.");
