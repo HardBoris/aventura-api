@@ -15,14 +15,15 @@ class PurchaseService {
   purchaseCreator = async (req: Request): Promise<any> => {
     const company = await this.Company(req);
 
-    const { purchaseReference, deliveryDate, supplierId } = req.body;
+    const body = req.body;
+    console.log(body);
 
-    const fecha = new Date(deliveryDate);
+    const fecha = new Date(body.deliveryDate);
 
     const purchase: Purchase = await purchaseRepository.save({
-      purchaseReference: purchaseReference,
+      ...body,
       deliveryDate: fecha,
-      supplier: supplierId,
+      supplier: body.supplierId,
       company: company,
     });
 
