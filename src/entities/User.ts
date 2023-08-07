@@ -39,7 +39,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt?: Date;
 
-  @ManyToOne((type) => Company)
+  @ManyToOne(() => Company, (company) => company.code)
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 

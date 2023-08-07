@@ -16,7 +16,7 @@ import { Tool } from "./Tool";
 export enum PaymentForm {
   BILLED = "Faturado",
   CARD = "Cartão",
-  CASH = "A vista",
+  CASH = "Dinheiro",
 }
 
 export enum Installments {
@@ -24,7 +24,7 @@ export enum Installments {
   TWICE = "2X",
   THRICE = "3X",
   PIX = "Pix",
-  MONEY = "Dinheiro",
+  MONEY = "A Vista",
 }
 
 export enum PurchaseStatus {

@@ -29,21 +29,21 @@ export class Company {
   @UpdateDateColumn()
   updatedAt?: Date;
 
-  @OneToMany(() => User, (user) => user.company, { eager: true })
+  @OneToMany(() => User, (user) => user.company, { cascade: true })
   users: User[];
 
-  @OneToMany(() => Supplier, (supplier) => supplier.company, { eager: true })
+  @OneToMany(() => Supplier, (supplier) => supplier.company, { cascade: true })
   suppliers: Supplier[];
 
-  @OneToMany(() => Purchase, (purchase) => purchase.company, { eager: true })
+  @OneToMany(() => Purchase, (purchase) => purchase.company, { cascade: true })
   purchases: Purchase[];
 
-  @OneToMany(() => Stuff, (stuff) => stuff.company, { eager: true })
+  @OneToMany(() => Stuff, (stuff) => stuff.company, { cascade: true })
   stuffs: Stuff[];
 
-  @OneToMany(() => Midia, (midia) => midia.company, { eager: true })
+  @OneToMany(() => Midia, (midia) => midia.company, { cascade: true })
   midias: Midia[];
 
-  @OneToMany(() => Tool, (tool) => tool.company, { eager: true })
+  @OneToMany(() => Tool, (tool) => tool.company, { cascade: true })
   tools: Tool[];
 }
