@@ -7,6 +7,9 @@ import midiaService from "./Midia.service";
 import categoryService from "./Category.service";
 import toolService from "./Tool.service";
 import purchaseElementService from "./PurchaseElement.service";
+import moveService from "./Move.service";
+import requisitionService from "./Requisition.service";
+import entryService from "./Entry.service";
 
 export {
   companyService,
@@ -18,4 +21,7 @@ export {
   categoryService,
   toolService,
   purchaseElementService,
+  moveService,
+  requisitionService,
+  entryService,
 };
