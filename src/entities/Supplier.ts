@@ -2,6 +2,8 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -28,19 +30,22 @@ export class Supplier {
   @Column({ nullable: true })
   supplierPhone?: string;
 
-  @ManyToOne((type) => Company)
+  @ManyToOne(() => Company)
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 
   @OneToMany(() => Purchase, (purchase) => purchase.supplier)
   purchases: Purchase[];
 
-  @OneToMany(() => Stuff, (stuff) => stuff.supplier)
+  @ManyToMany(() => Stuff, (stuff) => stuff.suppliers)
+  @JoinTable()
   stuffs: Stuff[];
 
-  @OneToMany(() => Midia, (midia) => midia.supplier)
+  @ManyToMany(() => Midia, (midia) => midia.suppliers)
+  @JoinTable()
   midias: Midia[];
 
-  @OneToMany(() => Tool, (tool) => tool.supplier)
+  @ManyToMany(() => Tool, (tool) => tool.suppliers)
+  @JoinTable()
   tools: Tool[];
 }

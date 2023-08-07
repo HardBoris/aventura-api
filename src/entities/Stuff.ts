@@ -2,6 +2,8 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -36,19 +38,17 @@ export class Stuff {
   @Column({ nullable: true })
   idealStock?: string;
 
-  @ManyToOne((type) => Supplier)
-  @JoinColumn({ name: "supplierId" })
-  supplier: Supplier;
+  @ManyToMany(() => Supplier)
+  suppliers: Supplier[];
 
-  @ManyToOne((type) => Purchase)
-  @JoinColumn({ name: "purchaseId" })
-  purchase: Purchase;
+  @ManyToMany(() => Purchase)
+  purchases: Purchase[];
 
-  @ManyToOne((type) => Category)
+  @ManyToOne(() => Category)
   @JoinColumn({ name: "categoryId" })
   category: Category;
 
-  @ManyToOne((type) => Company)
+  @ManyToOne(() => Company)
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 }

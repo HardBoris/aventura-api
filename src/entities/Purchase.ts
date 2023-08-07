@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -76,12 +78,15 @@ export class Purchase {
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 
-  @OneToMany(() => Stuff, (stuff) => stuff.purchase)
+  @ManyToMany(() => Stuff, (stuff) => stuff.purchases)
+  @JoinTable()
   stuffs: Stuff[];
 
-  @OneToMany(() => Midia, (midia) => midia.purchase)
+  @ManyToMany(() => Midia, (midia) => midia.purchases)
+  @JoinTable()
   midias: Midia[];
 
-  @OneToMany(() => Tool, (tool) => tool.purchase)
+  @ManyToMany(() => Tool, (tool) => tool.purchases)
+  @JoinTable()
   tools: Tool[];
 }
