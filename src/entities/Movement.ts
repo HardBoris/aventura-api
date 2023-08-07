@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { Requisition } from "./Requisition";
 import { Entry } from "./Entry";
+import { Company } from "./Company";
 
 @Entity("movements")
 export class Movement {
@@ -35,4 +36,8 @@ export class Movement {
   @ManyToOne(() => Entry, (entry) => entry.movements)
   @JoinColumn({ name: "entryId" })
   entry: Entry;
+
+  @ManyToOne(() => Company, (company) => company.code)
+  @JoinColumn({ referencedColumnName: "code" })
+  company: Company;
 }

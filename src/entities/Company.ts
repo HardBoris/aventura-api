@@ -6,7 +6,16 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from "typeorm";
-import { Midia, Purchase, Stuff, Tool, User } from "./index";
+import {
+  Entry,
+  Midia,
+  Movement,
+  Purchase,
+  Requisition,
+  Stuff,
+  Tool,
+  User,
+} from "./index";
 import { Supplier } from "./index";
 
 @Entity("companies")
@@ -29,21 +38,51 @@ export class Company {
   @UpdateDateColumn()
   updatedAt?: Date;
 
-  @OneToMany(() => User, (user) => user.company, { cascade: true })
+  @OneToMany(() => User, (user) => user.company, { cascade: true, eager: true })
   users: User[];
 
-  @OneToMany(() => Supplier, (supplier) => supplier.company, { cascade: true })
+  @OneToMany(() => Supplier, (supplier) => supplier.company, {
+    cascade: true,
+    eager: true,
+  })
   suppliers: Supplier[];
 
-  @OneToMany(() => Purchase, (purchase) => purchase.company, { cascade: true })
+  @OneToMany(() => Purchase, (purchase) => purchase.company, {
+    cascade: true,
+    eager: true,
+  })
   purchases: Purchase[];
 
-  @OneToMany(() => Stuff, (stuff) => stuff.company, { cascade: true })
+  @OneToMany(() => Stuff, (stuff) => stuff.company, {
+    cascade: true,
+    eager: true,
+  })
   stuffs: Stuff[];
 
-  @OneToMany(() => Midia, (midia) => midia.company, { cascade: true })
+  @OneToMany(() => Midia, (midia) => midia.company, {
+    cascade: true,
+    eager: true,
+  })
   midias: Midia[];
 
-  @OneToMany(() => Tool, (tool) => tool.company, { cascade: true })
+  @OneToMany(() => Tool, (tool) => tool.company, { cascade: true, eager: true })
   tools: Tool[];
+
+  @OneToMany(() => Requisition, (requisition) => requisition.company, {
+    cascade: true,
+    eager: true,
+  })
+  requisitions: Requisition[];
+
+  @OneToMany(() => Movement, (movement) => movement.company, {
+    cascade: true,
+    eager: true,
+  })
+  movements: Movement[];
+
+  @OneToMany(() => Entry, (entry) => entry.company, {
+    cascade: true,
+    eager: true,
+  })
+  entries: Entry[];
 }

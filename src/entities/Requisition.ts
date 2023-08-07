@@ -1,11 +1,14 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Movement } from "./Movement";
+import { Company } from "./Company";
 
 @Entity("requisitions")
 export class Requisition {
@@ -29,4 +32,8 @@ export class Requisition {
     // eager: true,
   })
   movements: Movement[];
+
+  @ManyToOne(() => Company, (company) => company.code)
+  @JoinColumn({ referencedColumnName: "code" })
+  company: Company;
 }
