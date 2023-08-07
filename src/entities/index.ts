@@ -1,3 +1,6 @@
+import { Requisition } from "./Requisition";
+import { Movement } from "./Movement";
+import { Entry } from "./Entry";
 import { PurchaseElement } from "./PurchaseElement";
 import { Supplier } from "./Supplier";
 import { User } from "./User";
@@ -18,4 +21,7 @@ export {
   Category,
   Tool,
   PurchaseElement,
+  Entry,
+  Movement,
+  Requisition,
 };

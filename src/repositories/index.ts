@@ -7,6 +7,9 @@ import midiaRepository from "./Midia.repository";
 import categoryRepository from "./Category.repository";
 import toolRepository from "./Tool.repository";
 import purchaseElementRepository from "./PurchaseElement.repository";
+import moveRepository from "./Move.repository";
+import requisitionRepository from "./Requisition.repository";
+import entryRepository from "./Entry.repository";
 
 export {
   companyRepository,
@@ -18,4 +21,7 @@ export {
   categoryRepository,
   toolRepository,
   purchaseElementRepository,
+  moveRepository,
+  requisitionRepository,
+  entryRepository,
 };
