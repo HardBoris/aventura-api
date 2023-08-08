@@ -40,7 +40,7 @@ export class Purchase {
   @CreateDateColumn()
   purchaseDate?: Date;
 
-  @Column()
+  @Column({ nullable: true })
   invoice?: string;
 
   @Column({ nullable: true })

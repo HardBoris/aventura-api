@@ -29,7 +29,7 @@ export class Entry {
   responsivel: User;
 
   @OneToOne(() => Purchase)
-  @JoinColumn()
+  @JoinColumn({ name: "purchaseId" })
   purchase: Purchase;
 
   @OneToMany(() => Movement, (movement) => movement.entry, {
