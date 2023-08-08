@@ -14,7 +14,7 @@ const verifyUserExists = async (
 
   const users = company.users;
 
-  const foundUser = users?.find((item) => item.userName === req.body.userName);
+  const foundUser = users?.find((item) => item.name === req.body.userName);
 
   if (foundUser) {
     throw new ErrorHandler(409, "User already exists.");
