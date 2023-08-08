@@ -5,10 +5,13 @@ import {
   JoinTable,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Movement } from "./Movement";
 import { Company } from "./Company";
+import { Purchase } from "./Purchase";
+import { User } from "./User";
 
 @Entity("entries")
 export class Entry {
@@ -21,11 +24,13 @@ export class Entry {
   @Column()
   entryDate: Date;
 
-  @Column()
-  seller: string;
+  @ManyToOne(() => User, (user) => user.entries)
+  @JoinColumn({ referencedColumnName: "name" })
+  responsivel: User;
 
-  @Column()
-  invoice: string;
+  @OneToOne(() => Purchase)
+  @JoinColumn()
+  purchase: Purchase;
 
   @OneToMany(() => Movement, (movement) => movement.entry, {
     cascade: true,

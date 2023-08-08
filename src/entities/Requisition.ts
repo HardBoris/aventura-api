@@ -2,13 +2,15 @@ import {
   Column,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Movement } from "./Movement";
 import { Company } from "./Company";
+import { User } from "./User";
+import { ServiceOrder } from "./ServiceOrder";
 
 @Entity("requisitions")
 export class Requisition {
@@ -21,15 +23,16 @@ export class Requisition {
   @Column()
   requestDate: Date;
 
-  @Column()
-  requestor: string;
+  @OneToOne(() => ServiceOrder)
+  @JoinColumn({ referencedColumnName: "order" })
+  service: ServiceOrder;
 
-  @Column()
-  requestTarget: string;
+  @ManyToOne(() => User, (user) => user.requisitions)
+  @JoinColumn({ referencedColumnName: "name" })
+  requestor: User;
 
   @OneToMany(() => Movement, (movement) => movement.requisition, {
     cascade: true,
-    // eager: true,
   })
   movements: Movement[];
 

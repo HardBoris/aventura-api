@@ -21,14 +21,6 @@ export enum PaymentForm {
   CASH = "Dinheiro",
 }
 
-export enum Installments {
-  ONCE = "1X",
-  TWICE = "2X",
-  THRICE = "3X",
-  PIX = "Pix",
-  MONEY = "A Vista",
-}
-
 export enum PurchaseStatus {
   OK = "Ok",
   PENDING = "Pendente",
@@ -42,16 +34,16 @@ export enum LogisticMode {
 
 @Entity("purchases")
 export class Purchase {
-  @PrimaryGeneratedColumn("uuid")
-  purchaseId?: string;
+  @PrimaryGeneratedColumn()
+  purchaseId?: number;
 
   @CreateDateColumn()
   purchaseDate?: Date;
 
-  @Column({ nullable: true })
-  purchaseReference?: string;
-
   @Column()
+  invoice?: string;
+
+  @Column({ nullable: true })
   deliveryDate?: Date;
 
   @Column({ type: "enum", enum: LogisticMode, default: LogisticMode.DELIVERY })
@@ -60,8 +52,8 @@ export class Purchase {
   @Column({ type: "enum", enum: PaymentForm, default: PaymentForm.BILLED })
   paymentForm: PaymentForm;
 
-  @Column({ type: "enum", enum: Installments, default: Installments.THRICE })
-  paymentInstallments: Installments;
+  @Column()
+  paymentInstallments: string;
 
   @Column({
     type: "enum",
@@ -70,11 +62,11 @@ export class Purchase {
   })
   purchaseStatus: PurchaseStatus;
 
-  @ManyToOne((type) => Supplier)
+  @ManyToOne(() => Supplier)
   @JoinColumn({ name: "supplierId" })
   supplier: Supplier;
 
-  @ManyToOne((type) => Company)
+  @ManyToOne(() => Company)
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 

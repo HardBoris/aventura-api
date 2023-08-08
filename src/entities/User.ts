@@ -7,8 +7,9 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
-import { Company } from "./index";
+import { Company, Entry, Requisition } from "./index";
 
 export enum UserCategory {
   OWNER = "owner",
@@ -25,10 +26,10 @@ export class User {
   userId?: string;
 
   @Column()
-  userName: string;
+  name: string;
 
   @Column()
-  userPassword: string;
+  password: string;
 
   @Column({ type: "enum", enum: UserCategory, default: UserCategory.USER })
   userCategory: UserCategory;
@@ -39,11 +40,21 @@ export class User {
   @UpdateDateColumn()
   updatedAt?: Date;
 
+  @OneToMany(() => Entry, (entry) => entry.responsivel, {
+    cascade: true,
+  })
+  entries: Entry[];
+
+  @OneToMany(() => Requisition, (requisition) => requisition.requestor, {
+    cascade: true,
+  })
+  requisitions: Requisition[];
+
   @ManyToOne(() => Company, (company) => company.code)
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 
   comparePwd = async (pwdString: string): Promise<boolean> => {
-    return await compare(pwdString, this.userPassword);
+    return await compare(pwdString, this.password);
   };
 }
