@@ -44,7 +44,7 @@ class ServiceOrderService {
       company: {
         code: company.code,
       },
-      serviceOrderId: req.params.id,
+      serviceOrderId: req.params.orderId,
     });
     return {
       status: 200,
@@ -59,7 +59,7 @@ class ServiceOrderService {
       company: {
         code: company.code,
       },
-      serviceOrderId: req.params.id,
+      serviceOrderId: req.params.orderId,
     });
 
     if (!serviceOrder) {
@@ -84,7 +84,7 @@ class ServiceOrderService {
   };
 
   ServiceOrderDeletor = async (req: Request) => {
-    await serviceOrderRepository.delete(req.params.id);
+    await serviceOrderRepository.delete(req.params.orderId);
     return {
       status: 200,
       message: "Service Order deleted",

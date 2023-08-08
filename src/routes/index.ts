@@ -11,6 +11,7 @@ import purchaseElementRouter from "./PurchaseElement.route";
 import moveRouter from "./Move.route";
 import requisitionRouter from "./Requisition.route";
 import entryRouter from "./Entry.route";
+import orderRouter from "./ServiceOrder.route";
 
 const registerRouters = (app: Express): void => {
   app.use(companyRouter);
@@ -25,6 +26,7 @@ const registerRouters = (app: Express): void => {
   app.use(moveRouter);
   app.use(requisitionRouter);
   app.use(entryRouter);
+  app.use(orderRouter);
 };
 
 export default registerRouters;
