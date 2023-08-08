@@ -1,3 +1,4 @@
+import { ServiceOrder } from "./ServiceOrder";
 import { Requisition } from "./Requisition";
 import { Movement } from "./Movement";
 import { Entry } from "./Entry";
@@ -24,4 +25,5 @@ export {
   Entry,
   Movement,
   Requisition,
+  ServiceOrder,
 };
