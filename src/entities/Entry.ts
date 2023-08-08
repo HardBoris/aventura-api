@@ -25,7 +25,7 @@ export class Entry {
   entryDate: Date;
 
   @ManyToOne(() => User, (user) => user.entries)
-  @JoinColumn({ referencedColumnName: "name" })
+  @JoinColumn({ name: "userId" })
   responsivel: User;
 
   @OneToOne(() => Purchase)

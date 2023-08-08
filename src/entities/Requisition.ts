@@ -24,11 +24,11 @@ export class Requisition {
   requestDate: Date;
 
   @OneToOne(() => ServiceOrder)
-  @JoinColumn({ referencedColumnName: "order" })
+  @JoinColumn({ name: "orderId" })
   service: ServiceOrder;
 
   @ManyToOne(() => User, (user) => user.requisitions)
-  @JoinColumn({ referencedColumnName: "name" })
+  @JoinColumn({ name: "userId" })
   requestor: User;
 
   @OneToMany(() => Movement, (movement) => movement.requisition, {

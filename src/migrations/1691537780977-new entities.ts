@@ -1,7 +1,10 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { hashSync } from "bcrypt";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-export class NewEntities1691535458586 implements MigrationInterface {
-  name = "NewEntities1691535458586";
+export class NewEntities1691537780977 implements MigrationInterface {
+  name = "NewEntities1691537780977";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -26,13 +29,13 @@ export class NewEntities1691535458586 implements MigrationInterface {
       `CREATE TABLE "users" ("userId" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "password" character varying NOT NULL, "userCategory" "public"."users_usercategory_enum" NOT NULL DEFAULT 'user', "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "companyCode" character varying, CONSTRAINT "PK_8bf09ba754322ab9c22a215c919" PRIMARY KEY ("userId"))`
     );
     await queryRunner.query(
-      `CREATE TABLE "entries" ("entryId" SERIAL NOT NULL, "isReceived" boolean NOT NULL DEFAULT false, "entryDate" TIMESTAMP NOT NULL, "responsivelName" character varying, "purchaseId" integer, "companyCode" character varying, CONSTRAINT "REL_d5c89d969d7812a95cabf03b77" UNIQUE ("purchaseId"), CONSTRAINT "PK_2dad521e106333678b91a290f58" PRIMARY KEY ("entryId"))`
+      `CREATE TABLE "entries" ("entryId" SERIAL NOT NULL, "isReceived" boolean NOT NULL DEFAULT false, "entryDate" TIMESTAMP NOT NULL, "userId" uuid, "purchaseId" integer, "companyCode" character varying, CONSTRAINT "REL_d5c89d969d7812a95cabf03b77" UNIQUE ("purchaseId"), CONSTRAINT "PK_2dad521e106333678b91a290f58" PRIMARY KEY ("entryId"))`
     );
     await queryRunner.query(
       `CREATE TABLE "movements" ("moveId" SERIAL NOT NULL, "moveType" character varying NOT NULL, "moveElement" character varying NOT NULL, "elementType" character varying NOT NULL, "moveQuantity" integer NOT NULL, "moveUnit" character varying NOT NULL, "requisitionId" integer, "entryId" integer, "companyCode" character varying, CONSTRAINT "PK_a4ae2cefa24e828e992ebce9863" PRIMARY KEY ("moveId"))`
     );
     await queryRunner.query(
-      `CREATE TABLE "requisitions" ("requestId" SERIAL NOT NULL, "isDelivered" boolean NOT NULL DEFAULT false, "requestDate" TIMESTAMP NOT NULL, "serviceOrder" character varying, "requestorName" character varying, "companyCode" character varying, CONSTRAINT "REL_41b9ecfff3001af5c41dd85fc0" UNIQUE ("serviceOrder"), CONSTRAINT "PK_f03e421171b3e8fc38f227286ed" PRIMARY KEY ("requestId"))`
+      `CREATE TABLE "requisitions" ("requestId" SERIAL NOT NULL, "isDelivered" boolean NOT NULL DEFAULT false, "requestDate" TIMESTAMP NOT NULL, "orderId" integer, "userId" uuid, "companyCode" character varying, CONSTRAINT "REL_b5544e9649899220f779ad3310" UNIQUE ("orderId"), CONSTRAINT "PK_f03e421171b3e8fc38f227286ed" PRIMARY KEY ("requestId"))`
     );
     await queryRunner.query(
       `CREATE TABLE "purchase_elements" ("elementId" uuid NOT NULL DEFAULT uuid_generate_v4(), "element" character varying NOT NULL, "quantity" double precision NOT NULL, "unit" character varying NOT NULL, "cost" double precision NOT NULL, "midiaId" uuid, "stuffId" uuid, "toolId" uuid, "purchaseId" integer, "companyCode" character varying, CONSTRAINT "PK_1ea79ec1174461aea4ce0ab9d15" PRIMARY KEY ("elementId"))`
@@ -98,64 +101,64 @@ export class NewEntities1691535458586 implements MigrationInterface {
       `CREATE INDEX "IDX_a865b864f5225ba8c9acf857c3" ON "purchases_tools_tools" ("toolsToolId") `
     );
     await queryRunner.query(
-      `ALTER TABLE "service_orders" ADD CONSTRAINT "FK_c4735a4778698768ce85ac01a11" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "service_orders" ADD CONSTRAINT "FK_c4735a4778698768ce85ac01a11" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "suppliers" ADD CONSTRAINT "FK_c3a4207c885bed79d6a2699f576" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "suppliers" ADD CONSTRAINT "FK_c3a4207c885bed79d6a2699f576" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
       `ALTER TABLE "stuffs" ADD CONSTRAINT "FK_a3e17336735a1517130127789ae" FOREIGN KEY ("categoryId") REFERENCES "categories"("categoryId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "stuffs" ADD CONSTRAINT "FK_08f68d40d19c0fcf2c3dbff20a3" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "stuffs" ADD CONSTRAINT "FK_08f68d40d19c0fcf2c3dbff20a3" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
       `ALTER TABLE "midias" ADD CONSTRAINT "FK_4394121950bbb78586a4f01aa44" FOREIGN KEY ("categoryId") REFERENCES "categories"("categoryId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "midias" ADD CONSTRAINT "FK_6686b6e4c33a4b2ed857944fc93" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "midias" ADD CONSTRAINT "FK_6686b6e4c33a4b2ed857944fc93" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
       `ALTER TABLE "tools" ADD CONSTRAINT "FK_04c976b34f552aaeba3dd5e332a" FOREIGN KEY ("categoryId") REFERENCES "categories"("categoryId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "tools" ADD CONSTRAINT "FK_5f396e6cb7ecf1230911cb0ed24" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "tools" ADD CONSTRAINT "FK_5f396e6cb7ecf1230911cb0ed24" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
       `ALTER TABLE "purchases" ADD CONSTRAINT "FK_77980c752fdeb3689e318fde424" FOREIGN KEY ("supplierId") REFERENCES "suppliers"("supplierId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "purchases" ADD CONSTRAINT "FK_1650274d28069abce100aa9d9e1" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "purchases" ADD CONSTRAINT "FK_1650274d28069abce100aa9d9e1" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "users" ADD CONSTRAINT "FK_992ae1eac1cc7f3f700b088009d" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "users" ADD CONSTRAINT "FK_992ae1eac1cc7f3f700b088009d" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "entries" ADD CONSTRAINT "FK_b282b7f8ff1b134afd9fdbe4d3f" FOREIGN KEY ("responsivelName") REFERENCES "users"("name") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "entries" ADD CONSTRAINT "FK_e186b0c87ddac0718d1f6783f98" FOREIGN KEY ("userId") REFERENCES "users"("userId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
       `ALTER TABLE "entries" ADD CONSTRAINT "FK_d5c89d969d7812a95cabf03b777" FOREIGN KEY ("purchaseId") REFERENCES "purchases"("purchaseId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "entries" ADD CONSTRAINT "FK_1149ff164f8c544ae1095fbaed5" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "entries" ADD CONSTRAINT "FK_1149ff164f8c544ae1095fbaed5" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "movements" ADD CONSTRAINT "FK_a89ea49cb7f9f67e08281816057" FOREIGN KEY ("requisitionId") REFERENCES "requisitions"("requestId") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "movements" ADD CONSTRAINT "FK_a89ea49cb7f9f67e08281816057" FOREIGN KEY ("requisitionId") REFERENCES "requisitions"("requestId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "movements" ADD CONSTRAINT "FK_97106822000b986efc38bcaa018" FOREIGN KEY ("entryId") REFERENCES "entries"("entryId") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "movements" ADD CONSTRAINT "FK_97106822000b986efc38bcaa018" FOREIGN KEY ("entryId") REFERENCES "entries"("entryId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "movements" ADD CONSTRAINT "FK_68a3ee95d3e84067e02a1c24d3a" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "movements" ADD CONSTRAINT "FK_68a3ee95d3e84067e02a1c24d3a" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "requisitions" ADD CONSTRAINT "FK_41b9ecfff3001af5c41dd85fc0f" FOREIGN KEY ("serviceOrder") REFERENCES "service_orders"("order") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "requisitions" ADD CONSTRAINT "FK_b5544e9649899220f779ad33108" FOREIGN KEY ("orderId") REFERENCES "service_orders"("serviceOrderId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "requisitions" ADD CONSTRAINT "FK_e01dd7adee8d0ed64e93010c310" FOREIGN KEY ("requestorName") REFERENCES "users"("name") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "requisitions" ADD CONSTRAINT "FK_905d5501a2c445cb8b7ffe470da" FOREIGN KEY ("userId") REFERENCES "users"("userId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "requisitions" ADD CONSTRAINT "FK_069669ffac52a6a94529782a363" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "requisitions" ADD CONSTRAINT "FK_069669ffac52a6a94529782a363" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
       `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_a5f52bf07b0c347a9f0fdcae5dc" FOREIGN KEY ("midiaId") REFERENCES "midias"("midiaId") ON DELETE NO ACTION ON UPDATE NO ACTION`
@@ -170,10 +173,10 @@ export class NewEntities1691535458586 implements MigrationInterface {
       `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_7cd811aa5a5be73dcbf348de9f2" FOREIGN KEY ("purchaseId") REFERENCES "purchases"("purchaseId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_f20ead7040f73a918c4cff018b2" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_f20ead7040f73a918c4cff018b2" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "categories" ADD CONSTRAINT "FK_c6b937895edd7b8ca6c129caf3e" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "categories" ADD CONSTRAINT "FK_c6b937895edd7b8ca6c129caf3e" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
       `ALTER TABLE "suppliers_stuffs_stuffs" ADD CONSTRAINT "FK_0b59c78f881fb40c9317dad95ee" FOREIGN KEY ("suppliersSupplierId") REFERENCES "suppliers"("supplierId") ON DELETE CASCADE ON UPDATE CASCADE`
@@ -211,6 +214,20 @@ export class NewEntities1691535458586 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "purchases_tools_tools" ADD CONSTRAINT "FK_a865b864f5225ba8c9acf857c38" FOREIGN KEY ("toolsToolId") REFERENCES "tools"("toolId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
+    await queryRunner.query(`
+                INSERT INTO "companies" ("companyName", "companyEmail", "code")
+                VALUES ('${process.env.COMPANY_NAME}', '${process.env.COMPANY_EMAIL}', '000000')
+        `);
+
+    await queryRunner.query(`
+                INSERT INTO "users" ("name", "userCategory", "companyCode", "password")
+                VALUES ('${
+                  process.env.OWNER_NAME
+                }', 'owner', '000000', '${hashSync(
+      process.env.OWNER_PASSWORD,
+      10
+    )}')
+        `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -272,10 +289,10 @@ export class NewEntities1691535458586 implements MigrationInterface {
       `ALTER TABLE "requisitions" DROP CONSTRAINT "FK_069669ffac52a6a94529782a363"`
     );
     await queryRunner.query(
-      `ALTER TABLE "requisitions" DROP CONSTRAINT "FK_e01dd7adee8d0ed64e93010c310"`
+      `ALTER TABLE "requisitions" DROP CONSTRAINT "FK_905d5501a2c445cb8b7ffe470da"`
     );
     await queryRunner.query(
-      `ALTER TABLE "requisitions" DROP CONSTRAINT "FK_41b9ecfff3001af5c41dd85fc0f"`
+      `ALTER TABLE "requisitions" DROP CONSTRAINT "FK_b5544e9649899220f779ad33108"`
     );
     await queryRunner.query(
       `ALTER TABLE "movements" DROP CONSTRAINT "FK_68a3ee95d3e84067e02a1c24d3a"`
@@ -293,7 +310,7 @@ export class NewEntities1691535458586 implements MigrationInterface {
       `ALTER TABLE "entries" DROP CONSTRAINT "FK_d5c89d969d7812a95cabf03b777"`
     );
     await queryRunner.query(
-      `ALTER TABLE "entries" DROP CONSTRAINT "FK_b282b7f8ff1b134afd9fdbe4d3f"`
+      `ALTER TABLE "entries" DROP CONSTRAINT "FK_e186b0c87ddac0718d1f6783f98"`
     );
     await queryRunner.query(
       `ALTER TABLE "users" DROP CONSTRAINT "FK_992ae1eac1cc7f3f700b088009d"`
