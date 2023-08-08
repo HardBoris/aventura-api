@@ -18,7 +18,7 @@ export class Supplier {
   @Column()
   supplierName: string;
 
-  @Column({ unique: true })
+  @Column()
   supplierCNPJ: string;
 
   @Column({ nullable: true })
