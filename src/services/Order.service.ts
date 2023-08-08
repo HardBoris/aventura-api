@@ -22,7 +22,7 @@ class ServiceOrderService {
     return serviceOrder;
   };
 
-  orderListLoader = async (req: Request) => {
+  OrderListLoader = async (req: Request) => {
     const company = await this.Company(req);
 
     const orderList: ServiceOrder[] = await serviceOrderRepository.all({

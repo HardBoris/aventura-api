@@ -10,6 +10,7 @@ import purchaseElementController from "./PurchaseElement.controller";
 import moveController from "./Move.controller";
 import requisitionController from "./Requisition.controller";
 import entryController from "./Entry.controller";
+import serviceOrderController from "./ServiceOrder.controller";
 
 export {
   companyController,
@@ -24,4 +25,5 @@ export {
   moveController,
   requisitionController,
   entryController,
+  serviceOrderController,
 };
