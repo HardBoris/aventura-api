@@ -28,8 +28,8 @@ class UserService {
     const hashPassword = await hash(userPassword, 10);
 
     const user: User = await userRepository.save({
-      userName: userName,
-      userPassword: hashPassword,
+      name: userName,
+      password: hashPassword,
       company: company,
     });
 
@@ -69,7 +69,7 @@ class UserService {
 
     return {
       status: 200,
-      message: { user: user.userName, token, company: company.companyId },
+      message: { user: user.name, token, company: company.companyId },
     };
   };
 
@@ -126,8 +126,8 @@ class UserService {
 
     const updatedUser = await userRepository.save({
       ...user,
-      userName: userName,
-      userPassword: userPassword,
+      name: userName,
+      password: userPassword,
     });
 
     return userShape.userUpdated.validate(updatedUser, { stripUnknown: true });

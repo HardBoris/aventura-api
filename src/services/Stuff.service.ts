@@ -20,8 +20,8 @@ class StuffService {
     const stuff: Stuff = await stuffRepository.save({
       stuffName: stuffName,
       measurementUnit: measurementUnit,
-      supplier: supplierId,
-      purchase: purchaseId,
+      suppliers: supplierId,
+      purchases: purchaseId,
       company: company,
     });
 

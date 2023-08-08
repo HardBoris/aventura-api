@@ -19,8 +19,8 @@ class ToolService {
 
     const tool: Tool = await toolRepository.save({
       tool: toolName,
-      supplier: supplierId,
-      purchase: purchaseId,
+      suppliers: supplierId,
+      purchases: purchaseId,
       company: company,
     });
 

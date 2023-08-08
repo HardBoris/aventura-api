@@ -20,8 +20,8 @@ class MidiaService {
     const midia: Midia = await midiaRepository.save({
       midiaName: midiaName,
       measurementUnit: measurementUnit,
-      supplier: supplierId,
-      purchase: purchaseId,
+      suppliers: supplierId,
+      purchases: purchaseId,
       company: company,
     });
 
