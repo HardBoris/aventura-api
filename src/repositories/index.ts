@@ -10,6 +10,7 @@ import purchaseElementRepository from "./PurchaseElement.repository";
 import moveRepository from "./Move.repository";
 import requisitionRepository from "./Requisition.repository";
 import entryRepository from "./Entry.repository";
+import serviceOrderRepository from "./ServiceOrder.repository";
 
 export {
   companyRepository,
@@ -24,4 +25,5 @@ export {
   moveRepository,
   requisitionRepository,
   entryRepository,
+  serviceOrderRepository,
 };

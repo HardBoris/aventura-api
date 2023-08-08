@@ -10,6 +10,7 @@ import purchaseElementService from "./PurchaseElement.service";
 import moveService from "./Move.service";
 import requisitionService from "./Requisition.service";
 import entryService from "./Entry.service";
+import orderService from "./Order.service";
 
 export {
   companyService,
@@ -24,4 +25,5 @@ export {
   moveService,
   requisitionService,
   entryService,
+  orderService,
 };
