@@ -19,7 +19,10 @@ class SupplierRepo implements ISupplierRepo {
   save = async (supplier: Partial<Supplier>) =>
     await this.ormRepo.save(supplier);
   all = async (payload: object) =>
-    await this.ormRepo.find({ where: { ...payload } });
+    await this.ormRepo.find({
+      ...payload,
+      relations: { purchases: true, stuffs: true, tools: true, midias: true },
+    });
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });
   };
