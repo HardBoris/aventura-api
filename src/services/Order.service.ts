@@ -11,7 +11,7 @@ class ServiceOrderService {
     return result;
   };
 
-  ServiceOrderCreator = async (req: Request): Promise<ServiceOrder> => {
+  ServiceOrderCreator = async (req: Request): Promise<any> => {
     const company = await this.Company(req);
 
     const serviceOrder: ServiceOrder = await serviceOrderRepository.save({

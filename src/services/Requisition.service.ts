@@ -1,16 +1,57 @@
 import { Request } from "express";
-import { requisitionRepository } from "../repositories";
+import {
+  companyRepository,
+  purchaseRepository,
+  requisitionRepository,
+  serviceOrderRepository,
+  userRepository,
+} from "../repositories";
 import { Requisition } from "../entities";
 import { ErrorHandler } from "../errors";
+import UserRepository from "../repositories/User.repository";
 
 class RequisitionService {
+  Company = async ({ params }: Request) => {
+    const result = await companyRepository.findOne({
+      companyId: params.companyId,
+    });
+    return result;
+  };
+
+  Requestor = async ({ body }: Request) => {
+    const result = await userRepository.findOne({ name: body.requestor });
+    return result;
+  };
+
+  Service = async ({ body }: Request) => {
+    const result = await serviceOrderRepository.findOne({ order: body.order });
+    return result;
+  };
+
   requisitionCreator = async (req: Request): Promise<any> => {
+    const company = await this.Company(req);
+
+    const requestor = await this.Requestor(req);
+
     const body = req.body;
+
+    let service = await this.Service(req);
+
+    if (!service) {
+      service = await serviceOrderRepository.save({
+        order: body.service,
+        company: company,
+      });
+    }
+
     const fecha = new Date(body.requestDate);
 
     const pedido: Requisition = await requisitionRepository.save({
       ...body,
       requestDate: fecha,
+      company: company,
+      requestor: requestor,
+      service: service,
     });
 
     return pedido;

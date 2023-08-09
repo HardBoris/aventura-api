@@ -3,7 +3,7 @@ import { AppDataSource } from "../data-source";
 import { ServiceOrder } from "../entities";
 
 interface IServiceOrderRepo {
-  save: (service_order: Partial<ServiceOrder>) => Promise<ServiceOrder>;
+  save: (order: ServiceOrder) => Promise<ServiceOrder>;
   all: (payload: object) => Promise<ServiceOrder[]>;
   findOne: (payload: object) => Promise<ServiceOrder>;
   delete: (id: string) => Promise<DeleteResult>;
@@ -16,8 +16,7 @@ class ServiceOrderRepo implements IServiceOrderRepo {
     this.ormRepo = AppDataSource.getRepository(ServiceOrder);
   }
 
-  save = async (service_order: Partial<ServiceOrder>) =>
-    await this.ormRepo.save(service_order);
+  save = async (order: Partial<ServiceOrder>) => await this.ormRepo.save(order);
   all = async (payload: object) => await this.ormRepo.find({ ...payload });
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });

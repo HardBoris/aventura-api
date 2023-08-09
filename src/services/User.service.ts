@@ -23,12 +23,12 @@ class UserService {
   userCreator = async (req: Request): Promise<any> => {
     const company = await this.Company(req);
 
-    const { userName, userPassword } = req.body;
+    const { name, password } = req.body;
 
-    const hashPassword = await hash(userPassword, 10);
+    const hashPassword = await hash(password, 10);
 
     const user: User = await userRepository.save({
-      name: userName,
+      name: name,
       password: hashPassword,
       company: company,
     });
@@ -39,12 +39,12 @@ class UserService {
   };
 
   userLoger = async (req: Request): Promise<ILogin> => {
-    const { companyCode, userName, userPassword } = req.body;
+    const { companyCode, name, password } = req.body;
     const user: User = await userRepository.findOne({
       company: {
         code: companyCode,
       },
-      userName: userName,
+      name: name,
     });
 
     if (!user) {
@@ -54,7 +54,7 @@ class UserService {
       };
     }
 
-    if (!(await user.comparePwd(userPassword))) {
+    if (!(await user.comparePwd(password))) {
       return {
         status: 401,
         message: { message: "Invalid credentials" },

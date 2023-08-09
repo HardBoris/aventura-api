@@ -19,7 +19,9 @@ class RequisitionRepo implements IRequisitionRepo {
   save = async (pedido: Partial<Requisition>) =>
     await this.ormRepo.save(pedido);
   all = async () =>
-    await this.ormRepo.find({ relations: { movements: true, service: true } });
+    await this.ormRepo.find({
+      relations: { movements: true, service: true, requestor: true },
+    });
   findOne = async (payload: object) =>
     await this.ormRepo.findOneBy({ ...payload });
   delete = async (id: string) => await this.ormRepo.delete(id);
