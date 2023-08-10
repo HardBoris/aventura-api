@@ -3,6 +3,7 @@ import { Purchase } from "../entities";
 import { companyRepository, purchaseRepository } from "../repositories";
 import { ErrorHandler } from "../errors";
 import { purchaseShape } from "../shapes";
+import { consultarCNPJ } from "consultar-cnpj";
 
 class PurchaseService {
   Company = async ({ params }: Request) => {
@@ -99,6 +100,11 @@ class PurchaseService {
       status: 200,
       message: "Purchase deleted",
     };
+  };
+
+  Consulta = async (cnpj: string) => {
+    const datos = await consultarCNPJ(cnpj);
+    return datos;
   };
 }
 

@@ -52,7 +52,7 @@ export class Purchase {
   @Column({ type: "enum", enum: PaymentForm, default: PaymentForm.BILLED })
   paymentForm: PaymentForm;
 
-  @Column()
+  @Column({ nullable: true })
   paymentInstallments: string;
 
   @Column({
