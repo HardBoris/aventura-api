@@ -18,7 +18,6 @@ class PurchaseElementService {
     const { elementName, purchaseId } = req.body;
 
     const element: PurchaseElement = await purchaseElementRepository.save({
-      element: elementName,
       purchase: purchaseId,
       company: company,
     });

@@ -21,7 +21,6 @@ class MidiaService {
       midiaName: midiaName,
       measurementUnit: measurementUnit,
       suppliers: supplierId,
-      purchases: purchaseId,
       company: company,
     });
 

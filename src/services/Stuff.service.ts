@@ -18,10 +18,9 @@ class StuffService {
     const { stuffName, measurementUnit, supplierId, purchaseId } = req.body;
 
     const stuff: Stuff = await stuffRepository.save({
-      stuffName: stuffName,
-      measurementUnit: measurementUnit,
+      stuff: stuffName,
+      defaultUnit: measurementUnit,
       suppliers: supplierId,
-      purchases: purchaseId,
       company: company,
     });
 
