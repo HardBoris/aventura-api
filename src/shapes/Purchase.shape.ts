@@ -2,9 +2,8 @@ import * as yup from "yup";
 
 class PurchaseShape {
   purchaseCreator = yup.object().shape({
-    purchaseId: yup.string().uuid().required(),
+    purchaseId: yup.number().required(),
     purchaseDate: yup.string().required(),
-    purchaseReference: yup.string().required(),
     deliveryDate: yup.string().required(),
     logisticMode: yup.string().required(),
     paymentForm: yup.string().required(),

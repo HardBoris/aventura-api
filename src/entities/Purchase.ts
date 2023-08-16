@@ -14,6 +14,7 @@ import { Company } from "./Company";
 import { Stuff } from "./Stuff";
 import { Midia } from "./Midia";
 import { Tool } from "./Tool";
+import { PurchaseElement } from "./PurchaseElement";
 
 export enum PaymentForm {
   BILLED = "Faturado",
@@ -70,15 +71,8 @@ export class Purchase {
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 
-  @ManyToMany(() => Stuff, (stuff) => stuff.purchases)
-  @JoinTable()
-  stuffs: Stuff[];
-
-  @ManyToMany(() => Midia, (midia) => midia.purchases)
-  @JoinTable()
-  midias: Midia[];
-
-  @ManyToMany(() => Tool, (tool) => tool.purchases)
-  @JoinTable()
-  tools: Tool[];
+  @OneToMany(() => PurchaseElement, (detail) => detail.purchase, {
+    cascade: true,
+  })
+  details: PurchaseElement[];
 }

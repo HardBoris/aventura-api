@@ -14,10 +14,7 @@ import { Purchase } from "./Purchase";
 @Entity("purchase_elements")
 export class PurchaseElement {
   @PrimaryGeneratedColumn("uuid")
-  elementId?: string;
-
-  @Column()
-  element: string;
+  itemId?: string;
 
   @Column({ type: "float" })
   quantity: number;
@@ -28,23 +25,23 @@ export class PurchaseElement {
   @Column({ type: "float" })
   cost: number;
 
-  @ManyToOne((type) => Midia)
-  @JoinColumn({ name: "midiaId" })
-  midia: Midia;
-
-  @ManyToOne((type) => Stuff)
-  @JoinColumn({ name: "stuffId" })
-  stuff: Stuff;
-
-  @ManyToOne((type) => Tool)
+  @ManyToOne(() => Tool, (tool) => tool.details)
   @JoinColumn({ name: "toolId" })
   tool: Tool;
 
-  @ManyToOne((type) => Purchase)
+  @ManyToOne(() => Stuff, (stuff) => stuff.details)
+  @JoinColumn({ name: "stuffId" })
+  stuff: Stuff;
+
+  @ManyToOne(() => Midia, (midia) => midia.details)
+  @JoinColumn({ name: "midiaId" })
+  midia: Midia;
+
+  @ManyToOne(() => Purchase, (purchase) => purchase.details)
   @JoinColumn({ name: "purchaseId" })
   purchase: Purchase;
 
-  @ManyToOne((type) => Company)
+  @ManyToOne(() => Company)
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 }

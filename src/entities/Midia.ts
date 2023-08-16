@@ -5,12 +5,14 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Purchase } from "./Purchase";
 import { Supplier } from "./Supplier";
 import { Company } from "./Company";
 import { Category } from "./Category";
+import { PurchaseElement } from "./PurchaseElement";
 
 @Entity("midias")
 export class Midia {
@@ -41,11 +43,11 @@ export class Midia {
   @Column({ nullable: true })
   idealStock?: string;
 
+  @OneToMany(() => PurchaseElement, (detail) => detail.midia, { cascade: true })
+  details: PurchaseElement[];
+
   @ManyToMany(() => Supplier)
   suppliers: Supplier[];
-
-  @ManyToMany(() => Purchase)
-  purchases: Purchase[];
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: "categoryId" })

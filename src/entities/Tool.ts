@@ -5,12 +5,14 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Purchase } from "./Purchase";
 import { Supplier } from "./Supplier";
 import { Company } from "./Company";
 import { Category } from "./Category";
+import { PurchaseElement } from "./PurchaseElement";
 
 @Entity("tools")
 export class Tool {
@@ -26,11 +28,11 @@ export class Tool {
   @Column({ nullable: true })
   toolPower?: string;
 
+  @OneToMany(() => PurchaseElement, (detail) => detail.tool, { cascade: true })
+  details: PurchaseElement[];
+
   @ManyToMany(() => Supplier)
   suppliers: Supplier[];
-
-  @ManyToMany(() => Purchase)
-  purchases: Purchase[];
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: "categoryId" })

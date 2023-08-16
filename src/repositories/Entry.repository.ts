@@ -18,7 +18,9 @@ class EntryRepo implements IEntryRepo {
 
   save = async (entrada: Partial<Entry>) => await this.ormRepo.save(entrada);
   all = async () =>
-    await this.ormRepo.find({ relations: { movements: true, purchase: true } });
+    await this.ormRepo.find({
+      relations: { movements: true, purchase: true, responsivel: true },
+    });
   findOne = async (payload: object) =>
     await this.ormRepo.findOneBy({ ...payload });
   delete = async (id: string) => await this.ormRepo.delete(id);

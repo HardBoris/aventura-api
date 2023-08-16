@@ -1,16 +1,48 @@
 import { Request } from "express";
-import { entryRepository } from "../repositories";
-import { Entry } from "../entities";
+import {
+  companyRepository,
+  entryRepository,
+  purchaseRepository,
+  userRepository,
+} from "../repositories";
+import { Company, Entry, Purchase, User } from "../entities";
 import { ErrorHandler } from "../errors";
 
 class EntryService {
+  Company = async ({ params }: Request) => {
+    const result: Company = await companyRepository.findOne({
+      companyId: params.companyId,
+    });
+    return result;
+  };
+
+  Responsivel = async (req: Request) => {
+    const result: User = await userRepository.findOne({
+      name: req.body.responsivel,
+    });
+    return result;
+  };
+
+  Purchase = async (req: Request) => {
+    const result: Purchase = await purchaseRepository.findOne({
+      purchaseId: req.body.purchase,
+    });
+    return result;
+  };
+
   entryCreator = async (req: Request): Promise<any> => {
     const body = req.body;
     const fecha = new Date(body.entryDate);
+    const responsable = await this.Responsivel(req);
+    const company = await this.Company(req);
+    const purchase = await this.Purchase(req);
 
     const entrada: Entry = await entryRepository.save({
       ...body,
       entryDate: fecha,
+      company: company,
+      responsivel: responsable.userId,
+      purchase: purchase ? purchase.purchaseId : "2",
     });
 
     return entrada;

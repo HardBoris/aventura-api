@@ -2,15 +2,15 @@ import {
   Column,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Purchase } from "./Purchase";
 import { Supplier } from "./Supplier";
 import { Company } from "./Company";
 import { Category } from "./Category";
+import { PurchaseElement } from "./PurchaseElement";
 
 @Entity("stuffs")
 export class Stuff {
@@ -18,10 +18,13 @@ export class Stuff {
   stuffId?: string;
 
   @Column()
-  stuffName: string;
+  stuff: string;
 
   @Column({ nullable: true })
-  stuffDescription?: string;
+  description?: string;
+
+  @Column({ nullable: true })
+  defaultUnit?: string;
 
   @Column({ nullable: true })
   stuffPacking?: string;
@@ -29,20 +32,17 @@ export class Stuff {
   @Column({ nullable: true })
   stuffPerPacking?: string;
 
-  @Column()
-  measurementUnit: string;
-
   @Column({ nullable: true })
   minimumStock?: string;
 
   @Column({ nullable: true })
   idealStock?: string;
 
+  @OneToMany(() => PurchaseElement, (detail) => detail.stuff, { cascade: true })
+  details: PurchaseElement[];
+
   @ManyToMany(() => Supplier)
   suppliers: Supplier[];
-
-  @ManyToMany(() => Purchase)
-  purchases: Purchase[];
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: "categoryId" })
