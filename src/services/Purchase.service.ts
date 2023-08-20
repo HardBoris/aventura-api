@@ -19,11 +19,13 @@ class PurchaseService {
     const body = req.body;
     console.log(body);
 
-    const fecha = new Date(body.deliveryDate);
+    const fecha_compra = new Date(body.purchaseDate);
+    const fecha_entrega = new Date(body.deliveryDate);
 
     const purchase: Purchase = await purchaseRepository.save({
       ...body,
-      deliveryDate: fecha,
+      purchaseDate: fecha_compra,
+      deliveryDate: fecha_entrega,
       supplier: body.supplierId,
       company: company,
     });
