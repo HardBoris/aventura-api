@@ -3,7 +3,7 @@ import { Requisition } from "./Requisition";
 import { Movement } from "./Movement";
 import { Entry } from "./Entry";
 import { PurchaseElement } from "./PurchaseElement";
-import { Supplier } from "./Supplier";
+import { Partner } from "./Partner";
 import { User } from "./User";
 import { Company } from "./Company";
 import { Purchase } from "./Purchase";
@@ -15,7 +15,7 @@ import { Tool } from "./Tool";
 export {
   Company,
   User,
-  Supplier,
+  Partner,
   Purchase,
   Stuff,
   Midia,

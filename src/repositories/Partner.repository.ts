@@ -1,23 +1,22 @@
 import { DeleteResult, Repository } from "typeorm";
 import { AppDataSource } from "../data-source";
-import { Supplier } from "../entities";
+import { Partner } from "../entities";
 
-interface ISupplierRepo {
-  save: (supplier: Partial<Supplier>) => Promise<Supplier>;
-  all: (payload: object) => Promise<Supplier[]>;
-  findOne: (payload: object) => Promise<Supplier>;
+interface IPartnerRepo {
+  save: (partner: Partial<Partner>) => Promise<Partner>;
+  all: (payload: object) => Promise<Partner[]>;
+  findOne: (payload: object) => Promise<Partner>;
   delete: (id: string) => Promise<DeleteResult>;
 }
 
-class SupplierRepo implements ISupplierRepo {
-  private ormRepo: Repository<Supplier>;
+class PartnerRepo implements IPartnerRepo {
+  private ormRepo: Repository<Partner>;
 
   constructor() {
-    this.ormRepo = AppDataSource.getRepository(Supplier);
+    this.ormRepo = AppDataSource.getRepository(Partner);
   }
 
-  save = async (supplier: Partial<Supplier>) =>
-    await this.ormRepo.save(supplier);
+  save = async (partner: Partial<Partner>) => await this.ormRepo.save(partner);
   all = async (payload: object) =>
     await this.ormRepo.find({
       ...payload,
@@ -31,4 +30,4 @@ class SupplierRepo implements ISupplierRepo {
   };
 }
 
-export default new SupplierRepo();
+export default new PartnerRepo();

@@ -1,6 +1,6 @@
 import companyController from "./Company.controller";
 import userController from "./User.controller";
-import supplierController from "./Supplier.controller";
+import partnerController from "./Partner.controller";
 import purchaseController from "./Purchase.controller";
 import stuffController from "./Stuff.controller";
 import midiaController from "./Midia.controller";
@@ -15,7 +15,7 @@ import serviceOrderController from "./ServiceOrder.controller";
 export {
   companyController,
   userController,
-  supplierController,
+  partnerController,
   purchaseController,
   stuffController,
   midiaController,

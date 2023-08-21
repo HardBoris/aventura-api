@@ -7,7 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Supplier } from "./Supplier";
+import { Partner } from "./Partner";
 import { Company } from "./Company";
 import { Category } from "./Category";
 import { PurchaseElement } from "./PurchaseElement";
@@ -41,8 +41,8 @@ export class Stuff {
   @OneToMany(() => PurchaseElement, (detail) => detail.stuff, { cascade: true })
   details: PurchaseElement[];
 
-  @ManyToMany(() => Supplier)
-  suppliers: Supplier[];
+  @ManyToMany(() => Partner)
+  partners: Partner[];
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: "categoryId" })

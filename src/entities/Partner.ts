@@ -10,42 +10,42 @@ import {
 } from "typeorm";
 import { Company, Midia, Purchase, Stuff, Tool } from "./index";
 
-@Entity("suppliers")
-export class Supplier {
+@Entity("partners")
+export class Partner {
   @PrimaryGeneratedColumn("uuid")
-  supplierId?: string;
+  partnerId?: string;
 
   @Column()
-  supplierName: string;
+  fantasyName: string;
 
   @Column()
-  supplierCNPJ: string;
+  CNPJ: string;
 
   @Column({ nullable: true })
-  supplierCorporateName?: string;
+  corporateName?: string;
 
   @Column({ nullable: true })
-  supplierEmail?: string;
+  partnerEmail?: string;
 
   @Column({ nullable: true })
-  supplierPhone?: string;
+  partnerPhone?: string;
 
   @ManyToOne(() => Company)
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 
-  @OneToMany(() => Purchase, (purchase) => purchase.supplier)
+  @OneToMany(() => Purchase, (purchase) => purchase.partner)
   purchases: Purchase[];
 
-  @ManyToMany(() => Stuff, (stuff) => stuff.suppliers)
+  @ManyToMany(() => Stuff, (stuff) => stuff.partners)
   @JoinTable()
   stuffs: Stuff[];
 
-  @ManyToMany(() => Midia, (midia) => midia.suppliers)
+  @ManyToMany(() => Midia, (midia) => midia.partners)
   @JoinTable()
   midias: Midia[];
 
-  @ManyToMany(() => Tool, (tool) => tool.suppliers)
+  @ManyToMany(() => Tool, (tool) => tool.partners)
   @JoinTable()
   tools: Tool[];
 }

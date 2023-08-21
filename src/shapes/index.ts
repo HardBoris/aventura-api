@@ -1,6 +1,6 @@
 import companyShape from "./Company.shape";
 import userShape from "./User.shape";
-import supplierShape from "./Supplier.shape";
+import partnerShape from "./Partner.shape";
 import purchaseShape from "./Purchase.shape";
 import stuffShape from "./Stuff.shape";
 import midiaShape from "./Midia.shape";
@@ -11,7 +11,7 @@ import purchaseElementShape from "./PurchaseElement.shape";
 export {
   companyShape,
   userShape,
-  supplierShape,
+  partnerShape,
   purchaseShape,
   stuffShape,
   midiaShape,

@@ -3,17 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Supplier } from "./Supplier";
+import { Partner } from "./Partner";
 import { Company } from "./Company";
-import { Stuff } from "./Stuff";
-import { Midia } from "./Midia";
-import { Tool } from "./Tool";
 import { PurchaseElement } from "./PurchaseElement";
 
 export enum PaymentForm {
@@ -63,9 +58,9 @@ export class Purchase {
   })
   purchaseStatus: PurchaseStatus;
 
-  @ManyToOne(() => Supplier)
-  @JoinColumn({ name: "supplierId" })
-  supplier: Supplier;
+  @ManyToOne(() => Partner)
+  @JoinColumn({ name: "partnerId" })
+  partner: Partner;
 
   @ManyToOne(() => Company)
   @JoinColumn({ referencedColumnName: "code" })
