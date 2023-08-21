@@ -15,11 +15,11 @@ class ToolService {
   toolCreator = async (req: Request): Promise<any> => {
     const company = await this.Company(req);
 
-    const { toolName, supplierId, purchaseId } = req.body;
+    const { toolName, partnerId, purchaseId } = req.body;
 
     const tool: Tool = await toolRepository.save({
       tool: toolName,
-      suppliers: supplierId,
+      partners: partnerId,
       company: company,
     });
 
