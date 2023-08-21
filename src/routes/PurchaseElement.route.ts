@@ -5,35 +5,35 @@ import { buyerValidator, tokenValidator } from "../middlewares";
 const purchaseElementRouter = Router();
 
 purchaseElementRouter.post(
-  "/aventura-api/:companyId/midias/register",
+  "/aventura-api/:companyId/details/register",
   tokenValidator,
   buyerValidator,
   purchaseElementController.purchaseElementCreator
 );
 
 purchaseElementRouter.get(
-  "/aventura-api/:companyId/midias",
+  "/aventura-api/:companyId/details",
   tokenValidator,
   buyerValidator,
   purchaseElementController.purchaseElementsLoader
 );
 
 purchaseElementRouter.get(
-  "/aventura-api/:companyId/midias/:elementId",
+  "/aventura-api/:companyId/details/:elementId",
   tokenValidator,
   buyerValidator,
   purchaseElementController.purchaseElementLoader
 );
 
 purchaseElementRouter.patch(
-  "/aventura-api/:companyId/midias/:elementId",
+  "/aventura-api/:companyId/details/:elementId",
   tokenValidator,
   buyerValidator,
   purchaseElementController.purchaseElementEditor
 );
 
 purchaseElementRouter.delete(
-  "/aventura-api/:companyId/midias/:elementId",
+  "/aventura-api/:companyId/details/:elementId",
   tokenValidator,
   buyerValidator,
   purchaseElementController.purchaseElementDeletor

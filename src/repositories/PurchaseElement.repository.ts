@@ -19,7 +19,15 @@ class PurchaseElementRepo implements IPurchaseElementRepo {
   save = async (purchaseElement: Partial<PurchaseElement>) =>
     await this.ormRepo.save(purchaseElement);
   all = async (payload: object) =>
-    await this.ormRepo.find({ where: { ...payload } });
+    await this.ormRepo.find({
+      ...payload,
+      relations: {
+        purchase: true,
+        midia: true,
+        stuff: true,
+        tool: true,
+      },
+    });
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });
   };
