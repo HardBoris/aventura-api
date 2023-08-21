@@ -3,8 +3,8 @@ import { hashSync } from "bcrypt";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export class NewEntities1691537780977 implements MigrationInterface {
-  name = "NewEntities1691537780977";
+export class RetryAllEntities1692628805926 implements MigrationInterface {
+  name = "RetryAllEntities1692628805926";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -14,7 +14,7 @@ export class NewEntities1691537780977 implements MigrationInterface {
       `CREATE TABLE "suppliers" ("supplierId" uuid NOT NULL DEFAULT uuid_generate_v4(), "supplierName" character varying NOT NULL, "supplierCNPJ" character varying NOT NULL, "supplierCorporateName" character varying, "supplierEmail" character varying, "supplierPhone" character varying, "companyCode" character varying, CONSTRAINT "PK_72715ca349897fe61381e321009" PRIMARY KEY ("supplierId"))`
     );
     await queryRunner.query(
-      `CREATE TABLE "stuffs" ("stuffId" uuid NOT NULL DEFAULT uuid_generate_v4(), "stuffName" character varying NOT NULL, "stuffDescription" character varying, "stuffPacking" character varying, "stuffPerPacking" character varying, "measurementUnit" character varying NOT NULL, "minimumStock" character varying, "idealStock" character varying, "categoryId" uuid, "companyCode" character varying, CONSTRAINT "PK_e549ca0bffc468837a660dd76b9" PRIMARY KEY ("stuffId"))`
+      `CREATE TABLE "stuffs" ("stuffId" uuid NOT NULL DEFAULT uuid_generate_v4(), "stuff" character varying NOT NULL, "description" character varying, "defaultUnit" character varying, "stuffPacking" character varying, "stuffPerPacking" character varying, "minimumStock" character varying, "idealStock" character varying, "categoryId" uuid, "companyCode" character varying, CONSTRAINT "PK_e549ca0bffc468837a660dd76b9" PRIMARY KEY ("stuffId"))`
     );
     await queryRunner.query(
       `CREATE TABLE "midias" ("midiaId" uuid NOT NULL DEFAULT uuid_generate_v4(), "midiaName" character varying NOT NULL, "midiaDescription" character varying, "midiaWidth" character varying, "midiaHeight" character varying, "midiaThick" character varying, "measurementUnit" character varying NOT NULL, "minimumStock" character varying, "idealStock" character varying, "categoryId" uuid, "companyCode" character varying, CONSTRAINT "PK_053c91074ae59d39f3c6f378ff3" PRIMARY KEY ("midiaId"))`
@@ -23,7 +23,10 @@ export class NewEntities1691537780977 implements MigrationInterface {
       `CREATE TABLE "tools" ("toolId" uuid NOT NULL DEFAULT uuid_generate_v4(), "tool" character varying NOT NULL, "toolModel" character varying, "toolPower" character varying, "categoryId" uuid, "companyCode" character varying, CONSTRAINT "PK_6681b0db33622268f0b5c855e62" PRIMARY KEY ("toolId"))`
     );
     await queryRunner.query(
-      `CREATE TABLE "purchases" ("purchaseId" SERIAL NOT NULL, "purchaseDate" TIMESTAMP NOT NULL DEFAULT now(), "invoice" character varying, "deliveryDate" TIMESTAMP, "logisticMode" "public"."purchases_logisticmode_enum" NOT NULL DEFAULT 'Entrega', "paymentForm" "public"."purchases_paymentform_enum" NOT NULL DEFAULT 'Faturado', "paymentInstallments" character varying NOT NULL, "purchaseStatus" "public"."purchases_purchasestatus_enum" NOT NULL DEFAULT 'Pendente', "supplierId" uuid, "companyCode" character varying, CONSTRAINT "PK_611866f7af176a877f97cbb76a4" PRIMARY KEY ("purchaseId"))`
+      `CREATE TABLE "purchase_elements" ("itemId" uuid NOT NULL DEFAULT uuid_generate_v4(), "quantity" double precision NOT NULL, "unit" character varying NOT NULL, "cost" double precision NOT NULL, "toolId" uuid, "stuffId" uuid, "midiaId" uuid, "purchaseId" integer, "companyCode" character varying, CONSTRAINT "PK_13744622e19552eec87bf0aaddf" PRIMARY KEY ("itemId"))`
+    );
+    await queryRunner.query(
+      `CREATE TABLE "purchases" ("purchaseId" SERIAL NOT NULL, "purchaseDate" TIMESTAMP NOT NULL DEFAULT now(), "invoice" character varying, "deliveryDate" TIMESTAMP, "logisticMode" "public"."purchases_logisticmode_enum" NOT NULL DEFAULT 'Entrega', "paymentForm" "public"."purchases_paymentform_enum" NOT NULL DEFAULT 'Faturado', "paymentInstallments" character varying, "purchaseStatus" "public"."purchases_purchasestatus_enum" NOT NULL DEFAULT 'Pendente', "supplierId" uuid, "companyCode" character varying, CONSTRAINT "PK_611866f7af176a877f97cbb76a4" PRIMARY KEY ("purchaseId"))`
     );
     await queryRunner.query(
       `CREATE TABLE "users" ("userId" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "password" character varying NOT NULL, "userCategory" "public"."users_usercategory_enum" NOT NULL DEFAULT 'user', "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "companyCode" character varying, CONSTRAINT "PK_8bf09ba754322ab9c22a215c919" PRIMARY KEY ("userId"))`
@@ -36,9 +39,6 @@ export class NewEntities1691537780977 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE "requisitions" ("requestId" SERIAL NOT NULL, "isDelivered" boolean NOT NULL DEFAULT false, "requestDate" TIMESTAMP NOT NULL, "orderId" integer, "userId" uuid, "companyCode" character varying, CONSTRAINT "REL_b5544e9649899220f779ad3310" UNIQUE ("orderId"), CONSTRAINT "PK_f03e421171b3e8fc38f227286ed" PRIMARY KEY ("requestId"))`
-    );
-    await queryRunner.query(
-      `CREATE TABLE "purchase_elements" ("elementId" uuid NOT NULL DEFAULT uuid_generate_v4(), "element" character varying NOT NULL, "quantity" double precision NOT NULL, "unit" character varying NOT NULL, "cost" double precision NOT NULL, "midiaId" uuid, "stuffId" uuid, "toolId" uuid, "purchaseId" integer, "companyCode" character varying, CONSTRAINT "PK_1ea79ec1174461aea4ce0ab9d15" PRIMARY KEY ("elementId"))`
     );
     await queryRunner.query(
       `CREATE TABLE "companies" ("companyId" uuid NOT NULL DEFAULT uuid_generate_v4(), "companyName" character varying, "companyEmail" character varying NOT NULL, "code" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_89c6967fd03128e11e33e1bd778" UNIQUE ("companyEmail"), CONSTRAINT "UQ_80af3e6808151c3210b4d5a2185" UNIQUE ("code"), CONSTRAINT "PK_9de34f59e8578db786054269261" PRIMARY KEY ("companyId"))`
@@ -74,33 +74,6 @@ export class NewEntities1691537780977 implements MigrationInterface {
       `CREATE INDEX "IDX_05961f7a7240cbaf8b9e270120" ON "suppliers_tools_tools" ("toolsToolId") `
     );
     await queryRunner.query(
-      `CREATE TABLE "purchases_stuffs_stuffs" ("purchasesPurchaseId" integer NOT NULL, "stuffsStuffId" uuid NOT NULL, CONSTRAINT "PK_a73690370957bbb012135f0ac0b" PRIMARY KEY ("purchasesPurchaseId", "stuffsStuffId"))`
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_b7d3624bf931e91d03005aa27c" ON "purchases_stuffs_stuffs" ("purchasesPurchaseId") `
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_6d2dbfbbde651199b1150ebfed" ON "purchases_stuffs_stuffs" ("stuffsStuffId") `
-    );
-    await queryRunner.query(
-      `CREATE TABLE "purchases_midias_midias" ("purchasesPurchaseId" integer NOT NULL, "midiasMidiaId" uuid NOT NULL, CONSTRAINT "PK_400a9825a1ae38ea3e2959ea2a4" PRIMARY KEY ("purchasesPurchaseId", "midiasMidiaId"))`
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_9ee82defabf56795c6eafb1b79" ON "purchases_midias_midias" ("purchasesPurchaseId") `
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_fc75f49ae90513efd33bd517d0" ON "purchases_midias_midias" ("midiasMidiaId") `
-    );
-    await queryRunner.query(
-      `CREATE TABLE "purchases_tools_tools" ("purchasesPurchaseId" integer NOT NULL, "toolsToolId" uuid NOT NULL, CONSTRAINT "PK_7b227714d74c14688f3928fbd28" PRIMARY KEY ("purchasesPurchaseId", "toolsToolId"))`
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_f2608a8db125fd9b87f681f4ff" ON "purchases_tools_tools" ("purchasesPurchaseId") `
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_a865b864f5225ba8c9acf857c3" ON "purchases_tools_tools" ("toolsToolId") `
-    );
-    await queryRunner.query(
       `ALTER TABLE "service_orders" ADD CONSTRAINT "FK_c4735a4778698768ce85ac01a11" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
@@ -123,6 +96,21 @@ export class NewEntities1691537780977 implements MigrationInterface {
     );
     await queryRunner.query(
       `ALTER TABLE "tools" ADD CONSTRAINT "FK_5f396e6cb7ecf1230911cb0ed24" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_7a769ab359d36b364d5947903eb" FOREIGN KEY ("toolId") REFERENCES "tools"("toolId") ON DELETE NO ACTION ON UPDATE NO ACTION`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_dca2bdfc2b82fcefefc159525cf" FOREIGN KEY ("stuffId") REFERENCES "stuffs"("stuffId") ON DELETE NO ACTION ON UPDATE NO ACTION`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_a5f52bf07b0c347a9f0fdcae5dc" FOREIGN KEY ("midiaId") REFERENCES "midias"("midiaId") ON DELETE NO ACTION ON UPDATE NO ACTION`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_7cd811aa5a5be73dcbf348de9f2" FOREIGN KEY ("purchaseId") REFERENCES "purchases"("purchaseId") ON DELETE NO ACTION ON UPDATE NO ACTION`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_f20ead7040f73a918c4cff018b2" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
       `ALTER TABLE "purchases" ADD CONSTRAINT "FK_77980c752fdeb3689e318fde424" FOREIGN KEY ("supplierId") REFERENCES "suppliers"("supplierId") ON DELETE NO ACTION ON UPDATE NO ACTION`
@@ -161,21 +149,6 @@ export class NewEntities1691537780977 implements MigrationInterface {
       `ALTER TABLE "requisitions" ADD CONSTRAINT "FK_069669ffac52a6a94529782a363" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_a5f52bf07b0c347a9f0fdcae5dc" FOREIGN KEY ("midiaId") REFERENCES "midias"("midiaId") ON DELETE NO ACTION ON UPDATE NO ACTION`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_dca2bdfc2b82fcefefc159525cf" FOREIGN KEY ("stuffId") REFERENCES "stuffs"("stuffId") ON DELETE NO ACTION ON UPDATE NO ACTION`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_7a769ab359d36b364d5947903eb" FOREIGN KEY ("toolId") REFERENCES "tools"("toolId") ON DELETE NO ACTION ON UPDATE NO ACTION`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_7cd811aa5a5be73dcbf348de9f2" FOREIGN KEY ("purchaseId") REFERENCES "purchases"("purchaseId") ON DELETE NO ACTION ON UPDATE NO ACTION`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchase_elements" ADD CONSTRAINT "FK_f20ead7040f73a918c4cff018b2" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
-    );
-    await queryRunner.query(
       `ALTER TABLE "categories" ADD CONSTRAINT "FK_c6b937895edd7b8ca6c129caf3e" FOREIGN KEY ("companyCode") REFERENCES "companies"("code") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
@@ -196,24 +169,6 @@ export class NewEntities1691537780977 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "suppliers_tools_tools" ADD CONSTRAINT "FK_05961f7a7240cbaf8b9e270120f" FOREIGN KEY ("toolsToolId") REFERENCES "tools"("toolId") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_stuffs_stuffs" ADD CONSTRAINT "FK_b7d3624bf931e91d03005aa27cc" FOREIGN KEY ("purchasesPurchaseId") REFERENCES "purchases"("purchaseId") ON DELETE CASCADE ON UPDATE CASCADE`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_stuffs_stuffs" ADD CONSTRAINT "FK_6d2dbfbbde651199b1150ebfed1" FOREIGN KEY ("stuffsStuffId") REFERENCES "stuffs"("stuffId") ON DELETE NO ACTION ON UPDATE NO ACTION`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_midias_midias" ADD CONSTRAINT "FK_9ee82defabf56795c6eafb1b79a" FOREIGN KEY ("purchasesPurchaseId") REFERENCES "purchases"("purchaseId") ON DELETE CASCADE ON UPDATE CASCADE`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_midias_midias" ADD CONSTRAINT "FK_fc75f49ae90513efd33bd517d01" FOREIGN KEY ("midiasMidiaId") REFERENCES "midias"("midiaId") ON DELETE NO ACTION ON UPDATE NO ACTION`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_tools_tools" ADD CONSTRAINT "FK_f2608a8db125fd9b87f681f4ff2" FOREIGN KEY ("purchasesPurchaseId") REFERENCES "purchases"("purchaseId") ON DELETE CASCADE ON UPDATE CASCADE`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_tools_tools" ADD CONSTRAINT "FK_a865b864f5225ba8c9acf857c38" FOREIGN KEY ("toolsToolId") REFERENCES "tools"("toolId") ON DELETE NO ACTION ON UPDATE NO ACTION`
-    );
     await queryRunner.query(`
                 INSERT INTO "companies" ("companyName", "companyEmail", "code")
                 VALUES ('${process.env.COMPANY_NAME}', '${process.env.COMPANY_EMAIL}', '000000')
@@ -231,24 +186,6 @@ export class NewEntities1691537780977 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "purchases_tools_tools" DROP CONSTRAINT "FK_a865b864f5225ba8c9acf857c38"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_tools_tools" DROP CONSTRAINT "FK_f2608a8db125fd9b87f681f4ff2"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_midias_midias" DROP CONSTRAINT "FK_fc75f49ae90513efd33bd517d01"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_midias_midias" DROP CONSTRAINT "FK_9ee82defabf56795c6eafb1b79a"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_stuffs_stuffs" DROP CONSTRAINT "FK_6d2dbfbbde651199b1150ebfed1"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchases_stuffs_stuffs" DROP CONSTRAINT "FK_b7d3624bf931e91d03005aa27cc"`
-    );
     await queryRunner.query(
       `ALTER TABLE "suppliers_tools_tools" DROP CONSTRAINT "FK_05961f7a7240cbaf8b9e270120f"`
     );
@@ -269,21 +206,6 @@ export class NewEntities1691537780977 implements MigrationInterface {
     );
     await queryRunner.query(
       `ALTER TABLE "categories" DROP CONSTRAINT "FK_c6b937895edd7b8ca6c129caf3e"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchase_elements" DROP CONSTRAINT "FK_f20ead7040f73a918c4cff018b2"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchase_elements" DROP CONSTRAINT "FK_7cd811aa5a5be73dcbf348de9f2"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchase_elements" DROP CONSTRAINT "FK_7a769ab359d36b364d5947903eb"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchase_elements" DROP CONSTRAINT "FK_dca2bdfc2b82fcefefc159525cf"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "purchase_elements" DROP CONSTRAINT "FK_a5f52bf07b0c347a9f0fdcae5dc"`
     );
     await queryRunner.query(
       `ALTER TABLE "requisitions" DROP CONSTRAINT "FK_069669ffac52a6a94529782a363"`
@@ -322,6 +244,21 @@ export class NewEntities1691537780977 implements MigrationInterface {
       `ALTER TABLE "purchases" DROP CONSTRAINT "FK_77980c752fdeb3689e318fde424"`
     );
     await queryRunner.query(
+      `ALTER TABLE "purchase_elements" DROP CONSTRAINT "FK_f20ead7040f73a918c4cff018b2"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "purchase_elements" DROP CONSTRAINT "FK_7cd811aa5a5be73dcbf348de9f2"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "purchase_elements" DROP CONSTRAINT "FK_a5f52bf07b0c347a9f0fdcae5dc"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "purchase_elements" DROP CONSTRAINT "FK_dca2bdfc2b82fcefefc159525cf"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "purchase_elements" DROP CONSTRAINT "FK_7a769ab359d36b364d5947903eb"`
+    );
+    await queryRunner.query(
       `ALTER TABLE "tools" DROP CONSTRAINT "FK_5f396e6cb7ecf1230911cb0ed24"`
     );
     await queryRunner.query(
@@ -346,27 +283,6 @@ export class NewEntities1691537780977 implements MigrationInterface {
       `ALTER TABLE "service_orders" DROP CONSTRAINT "FK_c4735a4778698768ce85ac01a11"`
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_a865b864f5225ba8c9acf857c3"`
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_f2608a8db125fd9b87f681f4ff"`
-    );
-    await queryRunner.query(`DROP TABLE "purchases_tools_tools"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_fc75f49ae90513efd33bd517d0"`
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_9ee82defabf56795c6eafb1b79"`
-    );
-    await queryRunner.query(`DROP TABLE "purchases_midias_midias"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_6d2dbfbbde651199b1150ebfed"`
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_b7d3624bf931e91d03005aa27c"`
-    );
-    await queryRunner.query(`DROP TABLE "purchases_stuffs_stuffs"`);
-    await queryRunner.query(
       `DROP INDEX "public"."IDX_05961f7a7240cbaf8b9e270120"`
     );
     await queryRunner.query(
@@ -389,12 +305,12 @@ export class NewEntities1691537780977 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE "suppliers_stuffs_stuffs"`);
     await queryRunner.query(`DROP TABLE "categories"`);
     await queryRunner.query(`DROP TABLE "companies"`);
-    await queryRunner.query(`DROP TABLE "purchase_elements"`);
     await queryRunner.query(`DROP TABLE "requisitions"`);
     await queryRunner.query(`DROP TABLE "movements"`);
     await queryRunner.query(`DROP TABLE "entries"`);
     await queryRunner.query(`DROP TABLE "users"`);
     await queryRunner.query(`DROP TABLE "purchases"`);
+    await queryRunner.query(`DROP TABLE "purchase_elements"`);
     await queryRunner.query(`DROP TABLE "tools"`);
     await queryRunner.query(`DROP TABLE "midias"`);
     await queryRunner.query(`DROP TABLE "stuffs"`);
