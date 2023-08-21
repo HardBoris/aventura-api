@@ -10,13 +10,13 @@ import {
   Entry,
   Midia,
   Movement,
+  Partner,
   Purchase,
   Requisition,
   Stuff,
   Tool,
   User,
 } from "./index";
-import { Supplier } from "./index";
 
 @Entity("companies")
 export class Company {
@@ -41,11 +41,11 @@ export class Company {
   @OneToMany(() => User, (user) => user.company, { cascade: true, eager: true })
   users: User[];
 
-  @OneToMany(() => Supplier, (supplier) => supplier.company, {
+  @OneToMany(() => Partner, (partner) => partner.company, {
     cascade: true,
     eager: true,
   })
-  suppliers: Supplier[];
+  partners: Partner[];
 
   @OneToMany(() => Purchase, (purchase) => purchase.company, {
     cascade: true,
