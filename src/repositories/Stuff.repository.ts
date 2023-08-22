@@ -18,7 +18,12 @@ class StuffRepo implements IStuffRepo {
 
   save = async (stuff: Partial<Stuff>) => await this.ormRepo.save(stuff);
   all = async (payload: object) =>
-    await this.ormRepo.find({ where: { ...payload } });
+    await this.ormRepo.find({
+      ...payload,
+      relations: {
+        details: true,
+      },
+    });
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });
   };

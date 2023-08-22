@@ -15,12 +15,10 @@ class StuffService {
   stuffCreator = async (req: Request): Promise<any> => {
     const company = await this.Company(req);
 
-    const { stuffName, measurementUnit, partnerId, purchaseId } = req.body;
+    const body = req.body;
 
     const stuff: Stuff = await stuffRepository.save({
-      stuff: stuffName,
-      defaultUnit: measurementUnit,
-      partners: partnerId,
+      ...body,
       company: company,
     });
 

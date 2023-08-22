@@ -18,7 +18,12 @@ class ToolRepo implements IToolRepo {
 
   save = async (tool: Partial<Tool>) => await this.ormRepo.save(tool);
   all = async (payload: object) =>
-    await this.ormRepo.find({ where: { ...payload } });
+    await this.ormRepo.find({
+      ...payload,
+      relations: {
+        details: true,
+      },
+    });
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });
   };

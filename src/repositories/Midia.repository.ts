@@ -18,7 +18,12 @@ class MidiaRepo implements IMidiaRepo {
 
   save = async (midia: Partial<Midia>) => await this.ormRepo.save(midia);
   all = async (payload: object) =>
-    await this.ormRepo.find({ where: { ...payload } });
+    await this.ormRepo.find({
+      ...payload,
+      relations: {
+        details: true,
+      },
+    });
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });
   };

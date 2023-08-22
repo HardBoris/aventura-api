@@ -15,12 +15,10 @@ class MidiaService {
   midiaCreator = async (req: Request): Promise<any> => {
     const company = await this.Company(req);
 
-    const { midiaName, measurementUnit, partnerId, purchaseId } = req.body;
+    const body = req.body;
 
     const midia: Midia = await midiaRepository.save({
-      midiaName: midiaName,
-      measurementUnit: measurementUnit,
-      partners: partnerId,
+      ...body,
       company: company,
     });
 

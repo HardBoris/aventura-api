@@ -26,7 +26,6 @@ class PurchaseService {
       ...body,
       purchaseDate: fecha_compra,
       deliveryDate: fecha_entrega,
-      supplier: body.supplierId,
       company: company,
     });
 
