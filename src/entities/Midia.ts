@@ -33,8 +33,8 @@ export class Midia {
   @Column({ nullable: true })
   midiaThick?: string;
 
-  @Column()
-  measurementUnit: string;
+  @Column({ nullable: true })
+  measurementUnit?: string;
 
   @Column({ nullable: true })
   minimumStock?: string;
