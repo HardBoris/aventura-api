@@ -69,7 +69,7 @@ class UserService {
 
     return {
       status: 200,
-      message: { user: user.name, token, company: company.companyId },
+      message: { user: user.name, token, company: company },
     };
   };
 

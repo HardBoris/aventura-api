@@ -19,7 +19,7 @@ companyRouter.get(
 );
 
 companyRouter.get(
-  "/aventura-api/companies/:code",
+  "/aventura-api/companies/:companyId",
   tokenValidator,
   adminValidator,
   companyController.companyLoader
