@@ -37,11 +37,15 @@ class PurchaseService {
   purchasesLoader = async (req: Request) => {
     const company = await this.Company(req);
 
-    const purchases: Purchase[] = await purchaseRepository.all({
+    let purchases: Purchase[] = await purchaseRepository.all({
       company: {
         code: company.code,
       },
     });
+
+    purchases = purchases.sort((a, b) =>
+      a.purchaseId > b.purchaseId ? -1 : a.purchaseId < b.purchaseId ? 1 : 0
+    );
 
     return {
       status: 200,

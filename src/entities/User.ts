@@ -9,7 +9,7 @@ import {
   JoinColumn,
   OneToMany,
 } from "typeorm";
-import { Company, Entry, Requisition } from "./index";
+import { Company, Entry, PurchaseRequest, Requisition } from "./index";
 
 export enum UserCategory {
   OWNER = "owner",
@@ -49,6 +49,11 @@ export class User {
     cascade: true,
   })
   requisitions: Requisition[];
+
+  @OneToMany(() => PurchaseRequest, (prequest) => prequest.requestor, {
+    cascade: true,
+  })
+  prequests: PurchaseRequest[];
 
   @ManyToOne(() => Company, (company) => company.code)
   @JoinColumn({ referencedColumnName: "code" })

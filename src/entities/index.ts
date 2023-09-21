@@ -11,6 +11,7 @@ import { Stuff } from "./Stuff";
 import { Midia } from "./Midia";
 import { Category } from "./Category";
 import { Tool } from "./Tool";
+import { PurchaseRequest } from "./PurchaseRequest";
 
 export {
   Company,
@@ -26,4 +27,5 @@ export {
   Movement,
   Requisition,
   ServiceOrder,
+  PurchaseRequest,
 };
