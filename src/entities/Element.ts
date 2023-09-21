@@ -16,6 +16,7 @@ import { Partner } from "./Partner";
 import { Midia } from "./Midia";
 import { Company } from "./Company";
 import { Tool } from "./Tool";
+import { PurchaseElement } from "./PurchaseElement";
 
 @Entity("elements")
 export class Element {
@@ -40,8 +41,10 @@ export class Element {
   @ManyToMany(() => Partner)
   partners: Partner[];
 
-  /* @OneToMany(() => Detail, (detail) => detail.element, { cascade: true })
-  details: Detail[]; */
+  @OneToMany(() => PurchaseElement, (detail) => detail.element, {
+    cascade: true,
+  })
+  details: PurchaseElement[];
 
   @OneToOne(() => Midia, (midia) => midia.element, { cascade: true })
   @JoinColumn({ name: "midiaProfileId" })

@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
+import { PurchaseElement } from "./PurchaseElement";
 // import { Detail } from "./Detail";
 
 @Entity("purchase_requests")
@@ -21,9 +22,9 @@ export class PurchaseRequest {
   @JoinColumn()
   requestor: User;
 
-  /* @OneToMany(() => Detail, (detail) => detail.prequest, {
+  @OneToMany(() => PurchaseElement, (detail) => detail.prequest, {
     cascade: true,
     eager: true,
   })
-  details: Detail[]; */
+  details: PurchaseElement[];
 }

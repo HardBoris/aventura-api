@@ -5,11 +5,13 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Partner } from "./Partner";
 import { Company } from "./Company";
 import { PurchaseElement } from "./PurchaseElement";
+import { PurchaseRequest } from "./PurchaseRequest";
 
 export enum PaymentForm {
   BILLED = "Faturado",
@@ -66,8 +68,7 @@ export class Purchase {
   @JoinColumn({ referencedColumnName: "code" })
   company: Company;
 
-  @OneToMany(() => PurchaseElement, (detail) => detail.purchase, {
-    cascade: true,
-  })
-  details: PurchaseElement[];
+  @OneToOne(() => PurchaseRequest)
+  @JoinColumn({ name: "prequest" })
+  prequest: PurchaseRequest;
 }

@@ -6,10 +6,12 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Company } from "./Company";
-import { Stuff } from "./Stuff";
-import { Midia } from "./Midia";
-import { Tool } from "./Tool";
+// import { Stuff } from "./Stuff";
+// import { Midia } from "./Midia";
+// import { Tool } from "./Tool";
 import { Purchase } from "./Purchase";
+import { PurchaseRequest } from "./PurchaseRequest";
+import { Element } from "./Element";
 
 @Entity("purchase_elements")
 export class PurchaseElement {
@@ -23,7 +25,7 @@ export class PurchaseElement {
   unit: string;
 
   @Column({ type: "float" })
-  cost: number;
+  cost?: number;
 
   /* @ManyToOne(() => Tool, (tool) => tool.details)
   @JoinColumn({ name: "toolId" })
@@ -37,9 +39,13 @@ export class PurchaseElement {
   @JoinColumn({ name: "midiaId" })
   midia: Midia; */
 
-  @ManyToOne(() => Purchase, (purchase) => purchase.details)
-  @JoinColumn({ name: "purchaseId" })
-  purchase: Purchase;
+  @ManyToOne(() => PurchaseRequest, (prequest) => prequest.details)
+  @JoinColumn({ name: "prequestId" })
+  prequest: PurchaseRequest;
+
+  @ManyToOne(() => Element, (element) => element.details)
+  @JoinColumn({ name: "elementId" })
+  element: Element;
 
   @ManyToOne(() => Company)
   @JoinColumn({ referencedColumnName: "code" })
