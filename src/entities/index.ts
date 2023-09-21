@@ -12,6 +12,7 @@ import { Midia } from "./Midia";
 import { Category } from "./Category";
 import { Tool } from "./Tool";
 import { PurchaseRequest } from "./PurchaseRequest";
+import { Element } from "./Element";
 
 export {
   Company,
@@ -28,4 +29,5 @@ export {
   Requisition,
   ServiceOrder,
   PurchaseRequest,
+  Element,
 };

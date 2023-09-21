@@ -8,7 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Company, Midia, Purchase, Stuff, Tool } from "./index";
+import { Company, Element, Midia, Purchase, Stuff, Tool } from "./index";
 
 @Entity("partners")
 export class Partner {
@@ -36,6 +36,10 @@ export class Partner {
 
   @OneToMany(() => Purchase, (purchase) => purchase.partner)
   purchases: Purchase[];
+
+  @ManyToMany(() => Element, (element) => element.partners)
+  @JoinTable()
+  element: Element[];
 
   /* @ManyToMany(() => Stuff, (stuff) => stuff.partners)
   @JoinTable()

@@ -29,9 +29,9 @@ export class PurchaseElement {
   @JoinColumn({ name: "toolId" })
   tool: Tool;
 
-  @ManyToOne(() => Stuff, (stuff) => stuff.details)
+  /* @ManyToOne(() => Stuff, (stuff) => stuff.details)
   @JoinColumn({ name: "stuffId" })
-  stuff: Stuff;
+  stuff: Stuff; */
 
   @ManyToOne(() => Midia, (midia) => midia.details)
   @JoinColumn({ name: "midiaId" })
