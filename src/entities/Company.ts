@@ -7,6 +7,7 @@ import {
   OneToMany,
 } from "typeorm";
 import {
+  Element,
   Entry,
   Midia,
   Movement,
@@ -85,4 +86,10 @@ export class Company {
     eager: true,
   })
   entries: Entry[];
+
+  @OneToMany(() => Element, (element) => element.company, {
+    cascade: true,
+    eager: true,
+  })
+  elements: Element[];
 }

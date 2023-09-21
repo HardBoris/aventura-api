@@ -3,12 +3,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
+  // OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Company } from "./Company";
-import { Stuff } from "./Stuff";
-import { Midia } from "./Midia";
+// import { Stuff } from "./Stuff";
+// import { Midia } from "./Midia";
 
 @Entity("categories")
 export class Category {
@@ -21,8 +21,8 @@ export class Category {
   /* @OneToMany(() => Stuff, (stuff) => stuff.category)
   stuffs: Stuff[]; */
 
-  @OneToMany(() => Midia, (midia) => midia.category)
-  midias: Midia[];
+  /* @OneToMany(() => Midia, (midia) => midia.category)
+  midias: Midia[]; */
 
   @ManyToOne((type) => Company)
   @JoinColumn({ referencedColumnName: "code" })

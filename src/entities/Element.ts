@@ -3,6 +3,7 @@ import {
   Entity,
   JoinColumn,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -12,6 +13,8 @@ import {
 import { Stuff } from "./Stuff";
 // import { Tool } from "./Tool";
 import { Partner } from "./Partner";
+import { Midia } from "./Midia";
+import { Company } from "./Company";
 
 @Entity("elements")
 export class Element {
@@ -39,9 +42,9 @@ export class Element {
   /* @OneToMany(() => Detail, (detail) => detail.element, { cascade: true })
   details: Detail[]; */
 
-  /* @OneToOne(() => Midia, (midia) => midia.element, { cascade: true })
+  @OneToOne(() => Midia, (midia) => midia.element, { cascade: true })
   @JoinColumn({ name: "midiaProfileId" })
-  midia: Midia; */
+  midia: Midia;
 
   @OneToOne(() => Stuff, (stuff) => stuff.element, { cascade: true })
   @JoinColumn({ name: "stuffProfileId" })
@@ -50,4 +53,8 @@ export class Element {
   /* @OneToOne(() => Tool, (tool) => tool.element, { cascade: true })
   @JoinColumn({ name: "toolProfileId" })
   tool: Tool; */
+
+  @ManyToOne((type) => Company)
+  @JoinColumn({ referencedColumnName: "code" })
+  company: Company;
 }

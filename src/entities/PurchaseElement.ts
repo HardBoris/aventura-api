@@ -33,9 +33,9 @@ export class PurchaseElement {
   @JoinColumn({ name: "stuffId" })
   stuff: Stuff; */
 
-  @ManyToOne(() => Midia, (midia) => midia.details)
+  /* @ManyToOne(() => Midia, (midia) => midia.details)
   @JoinColumn({ name: "midiaId" })
-  midia: Midia;
+  midia: Midia; */
 
   @ManyToOne(() => Purchase, (purchase) => purchase.details)
   @JoinColumn({ name: "purchaseId" })
