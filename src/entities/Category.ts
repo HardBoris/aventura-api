@@ -18,8 +18,8 @@ export class Category {
   @Column()
   category: string;
 
-  @OneToMany(() => Stuff, (stuff) => stuff.category)
-  stuffs: Stuff[];
+  /* @OneToMany(() => Stuff, (stuff) => stuff.category)
+  stuffs: Stuff[]; */
 
   @OneToMany(() => Midia, (midia) => midia.category)
   midias: Midia[];

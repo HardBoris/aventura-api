@@ -37,9 +37,9 @@ export class Partner {
   @OneToMany(() => Purchase, (purchase) => purchase.partner)
   purchases: Purchase[];
 
-  @ManyToMany(() => Stuff, (stuff) => stuff.partners)
+  /* @ManyToMany(() => Stuff, (stuff) => stuff.partners)
   @JoinTable()
-  stuffs: Stuff[];
+  stuffs: Stuff[]; */
 
   @ManyToMany(() => Midia, (midia) => midia.partners)
   @JoinTable()

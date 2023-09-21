@@ -15,16 +15,16 @@ import { PurchaseElement } from "./PurchaseElement";
 @Entity("stuffs")
 export class Stuff {
   @PrimaryGeneratedColumn("uuid")
-  stuffId?: string;
+  stuffProfileId?: string;
 
-  @Column()
-  stuff: string;
+  /* @Column()
+  stuff: string; */
 
-  @Column({ nullable: true })
-  description?: string;
+  /* @Column({ nullable: true })
+  description?: string; */
 
-  @Column({ nullable: true })
-  defaultUnit?: string;
+  /* @Column({ nullable: true })
+  defaultUnit?: string; */
 
   @Column({ nullable: true })
   stuffPacking?: string;
@@ -41,12 +41,12 @@ export class Stuff {
   @OneToMany(() => PurchaseElement, (detail) => detail.stuff, { cascade: true })
   details: PurchaseElement[];
 
-  @ManyToMany(() => Partner)
-  partners: Partner[];
+  /* @ManyToMany(() => Partner)
+  partners: Partner[]; */
 
-  @ManyToOne(() => Category)
+  /* @ManyToOne(() => Category)
   @JoinColumn({ name: "categoryId" })
-  category: Category;
+  category: Category; */
 
   @ManyToOne(() => Company)
   @JoinColumn({ referencedColumnName: "code" })
