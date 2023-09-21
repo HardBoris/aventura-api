@@ -15,6 +15,7 @@ import { Stuff } from "./Stuff";
 import { Partner } from "./Partner";
 import { Midia } from "./Midia";
 import { Company } from "./Company";
+import { Tool } from "./Tool";
 
 @Entity("elements")
 export class Element {
@@ -50,9 +51,9 @@ export class Element {
   @JoinColumn({ name: "stuffProfileId" })
   stuff: Stuff;
 
-  /* @OneToOne(() => Tool, (tool) => tool.element, { cascade: true })
+  @OneToOne(() => Tool, (tool) => tool.element, { cascade: true })
   @JoinColumn({ name: "toolProfileId" })
-  tool: Tool; */
+  tool: Tool;
 
   @ManyToOne((type) => Company)
   @JoinColumn({ referencedColumnName: "code" })

@@ -25,9 +25,9 @@ export class PurchaseElement {
   @Column({ type: "float" })
   cost: number;
 
-  @ManyToOne(() => Tool, (tool) => tool.details)
+  /* @ManyToOne(() => Tool, (tool) => tool.details)
   @JoinColumn({ name: "toolId" })
-  tool: Tool;
+  tool: Tool; */
 
   /* @ManyToOne(() => Stuff, (stuff) => stuff.details)
   @JoinColumn({ name: "stuffId" })

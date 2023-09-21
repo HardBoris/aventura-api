@@ -49,7 +49,7 @@ export class Partner {
   @JoinTable()
   midias: Midia[]; */
 
-  @ManyToMany(() => Tool, (tool) => tool.partners)
+  /* @ManyToMany(() => Tool, (tool) => tool.partners)
   @JoinTable()
-  tools: Tool[];
+  tools: Tool[]; */
 }
