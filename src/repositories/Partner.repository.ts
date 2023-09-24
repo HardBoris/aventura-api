@@ -20,7 +20,7 @@ class PartnerRepo implements IPartnerRepo {
   all = async (payload: object) =>
     await this.ormRepo.find({
       ...payload,
-      relations: { purchases: true, stuffs: true, tools: true, midias: true },
+      relations: { purchases: true },
     });
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });

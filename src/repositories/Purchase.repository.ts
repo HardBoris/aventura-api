@@ -21,7 +21,7 @@ class PurchaseRepo implements IPurchaseRepo {
   all = async (payload: object) =>
     await this.ormRepo.find({
       ...payload,
-      relations: { partner: true, details: true },
+      relations: { partner: true },
     });
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });

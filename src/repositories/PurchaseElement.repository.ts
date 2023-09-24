@@ -22,10 +22,8 @@ class PurchaseElementRepo implements IPurchaseElementRepo {
     await this.ormRepo.find({
       ...payload,
       relations: {
-        purchase: true,
-        midia: true,
-        stuff: true,
-        tool: true,
+        prequest: true,
+        element: true,
       },
     });
   findOne = async (payload: object) => {
