@@ -27,18 +27,6 @@ export class PurchaseElement {
   @Column({ type: "float" })
   cost?: number;
 
-  /* @ManyToOne(() => Tool, (tool) => tool.details)
-  @JoinColumn({ name: "toolId" })
-  tool: Tool; */
-
-  /* @ManyToOne(() => Stuff, (stuff) => stuff.details)
-  @JoinColumn({ name: "stuffId" })
-  stuff: Stuff; */
-
-  /* @ManyToOne(() => Midia, (midia) => midia.details)
-  @JoinColumn({ name: "midiaId" })
-  midia: Midia; */
-
   @ManyToOne(() => PurchaseRequest, (prequest) => prequest.details)
   @JoinColumn({ name: "prequestId" })
   prequest: PurchaseRequest;

@@ -39,7 +39,7 @@ export class Partner {
 
   @ManyToMany(() => Element, (element) => element.partners)
   @JoinTable()
-  element: Element[];
+  elements: Element[];
 
   /* @ManyToMany(() => Stuff, (stuff) => stuff.partners)
   @JoinTable()
