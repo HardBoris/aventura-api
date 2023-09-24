@@ -2,7 +2,6 @@ import {
   Column,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -34,7 +33,6 @@ export class Entry {
 
   @OneToMany(() => Movement, (movement) => movement.entry, {
     cascade: true,
-    // eager: true,
   })
   movements: Movement[];
 

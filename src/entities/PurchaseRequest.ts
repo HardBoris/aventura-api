@@ -8,7 +8,6 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { PurchaseElement } from "./PurchaseElement";
-// import { Detail } from "./Detail";
 
 @Entity("purchase_requests")
 export class PurchaseRequest {

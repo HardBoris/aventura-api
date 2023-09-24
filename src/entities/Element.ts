@@ -8,10 +8,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-// import { Detail } from "./Detail";
-// import { Midia } from "./Midia";
 import { Stuff } from "./Stuff";
-// import { Tool } from "./Tool";
 import { Partner } from "./Partner";
 import { Midia } from "./Midia";
 import { Company } from "./Company";

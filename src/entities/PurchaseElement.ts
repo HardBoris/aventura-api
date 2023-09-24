@@ -6,10 +6,6 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Company } from "./Company";
-// import { Stuff } from "./Stuff";
-// import { Midia } from "./Midia";
-// import { Tool } from "./Tool";
-import { Purchase } from "./Purchase";
 import { PurchaseRequest } from "./PurchaseRequest";
 import { Element } from "./Element";
 

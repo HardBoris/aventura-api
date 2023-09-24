@@ -4,13 +4,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Partner } from "./Partner";
 import { Company } from "./Company";
-import { PurchaseElement } from "./PurchaseElement";
 import { PurchaseRequest } from "./PurchaseRequest";
 
 export enum PaymentForm {
