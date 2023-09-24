@@ -11,6 +11,8 @@ import moveService from "./Move.service";
 import requisitionService from "./Requisition.service";
 import entryService from "./Entry.service";
 import orderService from "./Order.service";
+import elementService from "./Element.service";
+import prequestService from "./PurchaseRequest.service";
 
 export {
   companyService,
@@ -26,4 +28,6 @@ export {
   requisitionService,
   entryService,
   orderService,
+  elementService,
+  prequestService,
 };
