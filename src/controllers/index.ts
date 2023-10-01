@@ -12,6 +12,7 @@ import requisitionController from "./Requisition.controller";
 import entryController from "./Entry.controller";
 import serviceOrderController from "./ServiceOrder.controller";
 import elementController from "./Element.controller";
+import prequestController from "./PurchaseRequest.controller";
 
 export {
   companyController,
@@ -28,4 +29,5 @@ export {
   entryController,
   serviceOrderController,
   elementController,
+  prequestController,
 };

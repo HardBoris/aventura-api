@@ -83,7 +83,7 @@ class PurchaseRequestService {
 
     const updatedPrequest = await prequestRepository.save(prequest);
 
-    return updatedPrequest;
+    return { status: 200, prequest: updatedPrequest };
   };
 
   prequestDeletor = async (req: Request) => {
