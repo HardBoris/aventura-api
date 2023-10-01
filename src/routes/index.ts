@@ -13,6 +13,7 @@ import requisitionRouter from "./Requisition.route";
 import entryRouter from "./Entry.route";
 import orderRouter from "./ServiceOrder.route";
 import elementRouter from "./Element.route";
+import prequestRouter from "./PurchaseRequest.route";
 
 const registerRouters = (app: Express): void => {
   app.use(companyRouter);
@@ -29,6 +30,7 @@ const registerRouters = (app: Express): void => {
   app.use(entryRouter);
   app.use(orderRouter);
   app.use(elementRouter);
+  app.use(prequestRouter);
 };
 
 export default registerRouters;
