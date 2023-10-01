@@ -37,7 +37,7 @@ class ElementService {
     const company = await this.Company(req);
     const purchase = await this.Purchase(req);
 
-    const entrada: Element = await elementRepository.save({
+    const elemento: Element = await elementRepository.save({
       ...body,
       elementDate: fecha,
       company: company,
@@ -45,33 +45,33 @@ class ElementService {
       purchase: purchase ? purchase.purchaseId : "2",
     });
 
-    return entrada;
+    return elemento;
   };
 
-  entriesLoader = async (req: Request) => {
-    let entradas: Element[] = await elementRepository.all();
-    entradas = entradas.sort((a, b) =>
+  elementsLoader = async (req: Request) => {
+    let elementos: Element[] = await elementRepository.all();
+    elementos = elementos.sort((a, b) =>
       a.elementId > b.elementId ? -1 : a.elementId < b.elementId ? 1 : 0
     );
     return {
       status: 200,
-      entradas: entradas,
+      elementos: elementos,
     };
   };
 
   elementLoader = async (req: Request) => {
-    const entrada: Element = await elementRepository.findOne({
+    const elemento: Element = await elementRepository.findOne({
       elementId: req.params.elementId,
     });
-    return { status: 200, entrada: entrada };
+    return { status: 200, elemento: elemento };
   };
 
   elementEditor = async (req: Request) => {
-    const entrada: Element = await elementRepository.findOne({
+    const elemento: Element = await elementRepository.findOne({
       elementId: req.params.elementId,
     });
     const elementUpdated = {
-      ...entrada,
+      ...elemento,
       invoice: req.body.invoice,
       seller: req.body.seller,
       isReceived: req.body.isReceived,
@@ -79,16 +79,16 @@ class ElementService {
     await elementRepository.save(elementUpdated);
     return {
       status: 200,
-      entrada: elementUpdated,
+      elemento: elementUpdated,
     };
   };
 
   elementDeletor = async (req: Request) => {
-    const entrada: Element = await elementRepository.findOne({
+    const elemento: Element = await elementRepository.findOne({
       elementId: req.params.elementId,
     });
 
-    if (!entrada) {
+    if (!elemento) {
       throw new ErrorHandler(404, "Element not found");
     }
 
