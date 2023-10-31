@@ -19,9 +19,9 @@ class ElementRepo implements IElementRepo {
   save = async (elemento: Partial<Element>) =>
     await this.ormRepo.save(elemento);
   all = async () =>
-    await this.ormRepo.find({
+    await this.ormRepo.find(/* {
       relations: { partners: true, midia: true, stuff: true, tool: true },
-    });
+    } */);
   findOne = async (payload: object) =>
     await this.ormRepo.findOneBy({ ...payload });
   delete = async (id: string) => await this.ormRepo.delete(id);

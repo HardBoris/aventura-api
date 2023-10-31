@@ -13,7 +13,6 @@ class PurchaseRequestService {
 
   prequestCreator = async (req: Request): Promise<any> => {
     const company = await this.Company(req);
-
     const prequest: PurchaseRequest = await prequestRepository.save({
       ...req.body,
     });

@@ -50,9 +50,9 @@ class ElementService {
 
   elementsLoader = async (req: Request) => {
     let elementos: Element[] = await elementRepository.all();
-    elementos = elementos.sort((a, b) =>
+    /* elementos = elementos.sort((a, b) =>
       a.elementId > b.elementId ? -1 : a.elementId < b.elementId ? 1 : 0
-    );
+    ); */
     return {
       status: 200,
       elementos: elementos,
